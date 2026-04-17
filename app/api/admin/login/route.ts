@@ -24,10 +24,25 @@ import {
   resetRateLimit,
 } from "@/lib/rate-limiter"
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123"
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
 
 export async function POST(request: NextRequest) {
   try {
+    // --- Config check ---
+    // Force developers to set ADMIN_PASSWORD before the admin can be used.
+    if (!ADMIN_PASSWORD) {
+      console.error(
+        "[auth] ADMIN_PASSWORD env variable is not set. Add it to .env.local or your hosting environment."
+      )
+      return NextResponse.json(
+        {
+          error:
+            "Admin is not configured. Set the ADMIN_PASSWORD environment variable.",
+        },
+        { status: 500 }
+      )
+    }
+
     const ip =
       request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       request.headers.get("x-real-ip") ||

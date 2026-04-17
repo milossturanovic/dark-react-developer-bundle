@@ -13,11 +13,29 @@
  */
 
 import { NextRequest, NextResponse } from "next/server"
-import { readFile, writeFile } from "fs/promises"
+import { readFile, writeFile, access, copyFile } from "fs/promises"
 import { join } from "path"
 import { isAuthenticated } from "@/lib/admin-auth"
 
 const DATA_PATH = join(process.cwd(), "data", "projects.json")
+const EXAMPLE_PATH = join(process.cwd(), "data", "projects.example.json")
+
+/**
+ * Ensure data/projects.json exists. If the buyer just cloned the template,
+ * only projects.example.json is tracked in git — copy it on first access.
+ */
+async function ensureDataFile() {
+  try {
+    await access(DATA_PATH)
+  } catch {
+    try {
+      await copyFile(EXAMPLE_PATH, DATA_PATH)
+    } catch {
+      // Fallback: write an empty collection
+      await writeFile(DATA_PATH, JSON.stringify({ projects: [] }, null, 2), "utf8")
+    }
+  }
+}
 
 // ---------------------------------------------------------------------------
 // GET — List projects with optional search & status filter
@@ -33,6 +51,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search")?.toLowerCase() || ""
     const status = searchParams.get("status") || ""
 
+    await ensureDataFile()
     const fileContents = await readFile(DATA_PATH, "utf8")
     const data = JSON.parse(fileContents)
     let projects = data.projects || []
@@ -85,6 +104,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    await ensureDataFile()
     const fileContents = await readFile(DATA_PATH, "utf8")
     const data = JSON.parse(fileContents)
 

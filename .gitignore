@@ -27,6 +27,13 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# admin data — do NOT commit real project content
+# The seed file (data/projects.json) ships with the template, but any edits
+# the developer makes via /admin should stay out of the repo.
+# Copy data/projects.json to data/projects.example.json if you want to track defaults.
+/data/*.json
+!/data/projects.example.json
+
 # vercel
 .vercel
 
