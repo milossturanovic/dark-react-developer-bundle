@@ -50,11 +50,24 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Sidemenu – layout only; transition/duration/easing set inline in sheet.tsx */
+@layer components {
+  .sidemenu-overlay {
+    @apply fixed inset-0 z-50;
+  }
+  .sidemenu-panel {
+    @apply fixed z-50 gap-4 p-6 shadow-lg;
   }
 }
 

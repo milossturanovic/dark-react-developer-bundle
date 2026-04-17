@@ -28,13 +28,23 @@
  * - Tailwind CSS
  * - shadcn/ui components
  * - lucide-react icons
+ * - framer-motion (for animations)
  */
 
+"use client"
+
+import { motion } from "framer-motion"
 import { SiteNavbar } from "@/components/site-navbar"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { ArrowRight, Github, Linkedin, Mail, ExternalLink } from "lucide-react"
+import { HeroTitleWithGlobe } from "@/components/hero-title-with-globe"
+import { AboutSection } from "@/components/sections/about-section"
+import { FeaturedProjects } from "@/components/sections/featured-projects"
+import { ServicesSection } from "@/components/sections/services-section"
+import { AnimatedSectionTitle } from "@/components/motion/animated-section-title"
+import { SiteFooter } from "@/components/site-footer"
+import { ArrowRight, ExternalLink } from "lucide-react"
 
 // ============================================================================
 // EDITABLE DATA - CUSTOMIZE YOUR CONTENT HERE
@@ -42,54 +52,11 @@ import { ArrowRight, Github, Linkedin, Mail, ExternalLink } from "lucide-react"
 
 // Feature badges displayed under hero section
 const FEATURES_DATA = [
-  "Next.js App Router",
-  "shadcn/ui",
-  "Tailwind CSS",
+  "Web Development",
+  "MERN Dev",
+  "Mobile Dev",
 ]
 
-// Project cards data - Add/remove/edit projects here
-const PROJECTS_DATA = [
-  {
-    id: 1,
-    title: "E-Commerce Platform",
-    description: "Full-stack e-commerce solution with cart, payments, and admin dashboard.",
-    tags: ["Next.js", "Stripe", "Prisma"],
-    link: "#",
-  },
-  {
-    id: 2,
-    title: "Task Management App",
-    description: "Collaborative task manager with real-time updates and team features.",
-    tags: ["React", "Firebase", "Tailwind"],
-    link: "#",
-  },
-  {
-    id: 3,
-    title: "Portfolio Template",
-    description: "Modern, responsive portfolio template with dark mode and animations.",
-    tags: ["Next.js", "TypeScript", "Framer"],
-    link: "#",
-  },
-]
-
-// Social links - Update with your actual profiles
-const SOCIAL_LINKS = [
-  {
-    name: "GitHub",
-    href: "https://github.com/yourusername",
-    icon: Github,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://linkedin.com/in/yourusername",
-    icon: Linkedin,
-  },
-  {
-    name: "Email",
-    href: "mailto:your.email@example.com",
-    icon: Mail,
-  },
-]
 
 // ============================================================================
 // MAIN PAGE COMPONENT
@@ -107,185 +74,178 @@ export default function HomePage() {
       <SiteNavbar />
 
       {/* Main Content */}
-      <main className="container">
+      <main>
         
         {/* ================================================================
             HERO SECTION
             Edit headline, subtext, and CTA button text/links here
+            
+            EXAMPLE: Using HeroTitleWithGlobe wrapper with dotted globe background
+            The globe rotates slowly behind the title for visual interest.
         ================================================================ */}
-        <section id="home" className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center py-20 text-center">
-          <div className="mx-auto max-w-3xl space-y-8">
-            {/* Status Badge */}
-            <Badge variant="outline" className="mb-4">
-              ✨ Included: Resume + Portfolio + Interview PDFs
-            </Badge>
+        <HeroTitleWithGlobe
+          id="home"
+          className="relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center py-20"
+          contentClassName="relative z-10 mx-auto max-w-6xl px-4 space-y-8 text-center"
+          // Globe customization (optional - defaults are fine)
+          // pointCount={2000}      // Desktop: 2000, Mobile: 800 (auto)
+          // radius={2.5}            // Globe size
+          // pointSize={0.02}        // Dot size
+          // color="#ffffff"         // Dot color (white)
+          // opacity={0.3}           // Globe opacity (30%)
+          // rotationSpeed={0.3}     // Rotation speed
+        >
+          {/* Main Headline - EDIT THIS */}
+          <motion.h1
+            className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl pb-2 overflow-visible"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: {
+                transition: { staggerChildren: 0.08, delayChildren: 0.2 }
+              }
+            }}
+          >
+            {/* First part: "Creating unique websites" */}
+            {["Creating", "unique", "websites"].map((word, i) => (
+              <motion.span
+                key={i}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 4, ease: [0.4, 1, 0.4, 1] }
+                  }
+                }}
+                className="inline-block mr-2 pb-1"
+              >
+                {word}
+              </motion.span>
+            ))}
+            {" "}
+            {/* Gradient part: "tailored to your needs" */}
+            {["tailored", "to", "your", "needs"].map((word, i) => (
+              <motion.span
+                key={i}
+                className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent inline-block mr-2 pb-1"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 4, ease: [0.4, 1, 0.4, 1] }
+                  }
+                }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.h1>
 
-            {/* Main Headline - EDIT THIS */}
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-              Build a modern developer portfolio that looks{" "}
-              <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-                premium
-              </span>
-            </h1>
+          {/* Subheadline - EDIT THIS */}
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
+            Designing and creating digital, professional, innovative and modern solutions 
+            in the fields of web development.
+          </p>
 
-            {/* Subheadline - EDIT THIS */}
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
-              A complete Next.js portfolio bundle with dark theme, modern UI components, 
-              and production-ready code. Start building in minutes.
-            </p>
-
-            {/* CTA Buttons - EDIT LINKS */}
-            <div className="flex flex-wrap items-center justify-center gap-4">
+          {/* CTA Buttons - EDIT LINKS */}
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            {/* Download Resume Button with Hover Animation */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              initial="rest"
+              animate="rest"
+            >
               <Button size="lg" asChild>
-                <a href="#download">
-                  Get the Bundle
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href="#projects">See Projects</a>
-              </Button>
-            </div>
-
-            {/* Feature Badges - EDIT in FEATURES_DATA array above */}
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-8">
-              {FEATURES_DATA.map((feature) => (
-                <Badge key={feature} variant="secondary">
-                  {feature}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <Separator className="my-12" />
-
-        {/* ================================================================
-            PROJECTS SECTION
-            Edit project cards in PROJECTS_DATA array above
-        ================================================================ */}
-        <section id="projects" className="py-20">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-12 text-center">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Featured Projects
-              </h2>
-              <p className="mt-4 text-lg text-muted-foreground">
-                A selection of recent work and side projects
-              </p>
-            </div>
-
-            {/* Projects Grid */}
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {PROJECTS_DATA.map((project) => (
-                <article
-                  key={project.id}
-                  className="group relative overflow-hidden rounded-lg border bg-card p-6 transition-all hover:-translate-y-1 hover:shadow-lg"
+                <motion.a
+                  href="#download"
+                  className="group relative overflow-hidden"
+                  initial="rest"
+                  whileHover="hover"
                 >
-                  {/* Project Content */}
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between">
-                      <h3 className="text-xl font-semibold">{project.title}</h3>
-                      <a
-                        href={project.link}
-                        className="text-muted-foreground transition-colors hover:text-foreground"
-                        aria-label={`View ${project.title}`}
-                      >
-                        <ExternalLink className="h-5 w-5" />
-                      </a>
-                    </div>
-                    
-                    <p className="text-sm text-muted-foreground">
-                      {project.description}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <Badge key={tag} variant="outline">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+                  <span className="relative z-10 flex items-center">
+                    Download Resume
+                    <motion.span
+                      className="ml-2 inline-flex relative w-4 h-4"
+                      variants={{
+                        rest: { x: 0, opacity: 1 },
+                        hover: {
+                          x: [0, 10, -10, 0],
+                          opacity: [1, 0, 0, 1],
+                          transition: {
+                            duration: 0.8,
+                            ease: "easeInOut"
+                          }
+                        }
+                      }}
+                    >
+                      <ArrowRight className="h-4 w-4" />
+                    </motion.span>
+                  </span>
+                  {/* Shimmer effect on hover */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                  />
+                  {/* Subtle glow effect */}
+                  <motion.div
+                    className="absolute inset-0 rounded-md bg-primary/20 blur-xl opacity-0"
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </motion.a>
+              </Button>
+            </motion.div>
+            
+            <Button size="lg" variant="outline" asChild>
+              <a href="/contact">Contact</a>
+            </Button>
           </div>
-        </section>
 
-        <Separator className="my-12" />
+          {/* Feature Badges - EDIT in FEATURES_DATA array above */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-8">
+            {FEATURES_DATA.map((feature) => (
+              <Badge key={feature} variant="secondary">
+                {feature}
+              </Badge>
+            ))}
+          </div>
+        </HeroTitleWithGlobe>
+
+        <Separator className="mt-12" />
 
         {/* ================================================================
             ABOUT SECTION
-            Edit the about content below
+            Edit content in components/sections/about-section.tsx
         ================================================================ */}
-        <section id="about" className="py-20">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              About This Template
-            </h2>
-            <div className="mt-6 space-y-4 text-lg text-muted-foreground">
-              <p>
-                This portfolio bundle is designed for developers who want a professional,
-                modern web presence without spending weeks on design and development.
-              </p>
-              <p>
-                Built with the latest web technologies and best practices, it includes
-                everything you need: responsive design, dark theme, accessible components,
-                and clean, maintainable code.
-              </p>
-              <p className="pt-4">
-                <Button variant="outline" asChild>
-                  <a href="#contact">Get in Touch</a>
-                </Button>
-              </p>
-            </div>
-          </div>
-        </section>
+        <AboutSection />
 
-        <Separator className="my-12" />
+        <Separator />
 
         {/* ================================================================
-            CONTACT SECTION
-            Edit social links in SOCIAL_LINKS array above
+            SERVICES SECTION
+            Edit services in components/sections/services-section.tsx
         ================================================================ */}
-        <section id="contact" className="py-20">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Get in Touch
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Connect with me on social media or send an email
-            </p>
+        <ServicesSection />
 
-            {/* Social Links */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              {SOCIAL_LINKS.map((social) => {
-                const Icon = social.icon
-                return (
-                  <Button key={social.name} variant="outline" size="lg" asChild>
-                    <a
-                      href={social.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="gap-2"
-                    >
-                      <Icon className="h-5 w-5" />
-                      {social.name}
-                    </a>
-                  </Button>
-                )
-              })}
-            </div>
-          </div>
-        </section>
+        <Separator />
 
-        {/* Footer */}
-        <footer className="border-t py-8 text-center text-sm text-muted-foreground">
-          <p>© 2024 Dark React Bundle. Built with Next.js and Tailwind CSS.</p>
-        </footer>
+        {/* ================================================================
+            PROJECTS SECTION
+            Edit project cards in components/sections/featured-projects.tsx
+        ================================================================ */}
+        <FeaturedProjects />
+
+ 
+        <Separator />
+
       </main>
+      <SiteFooter />
     </div>
   )
 }
