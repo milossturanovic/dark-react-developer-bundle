@@ -2,6 +2,8 @@
 
 This guide covers deploying your Dark React Developer Bundle to various hosting platforms.
 
+> **Heads up:** the template requires **no environment variables** out of the box. All content lives in `data/projects.json`, which is tracked in git. Every push to your main branch redeploys the latest portfolio.
+
 ## Recommended: Vercel (Easiest)
 
 Vercel is built by the creators of Next.js and offers the best integration.
@@ -75,7 +77,7 @@ vercel
    ```
 
 3. **Environment Variables:**
-   - Add in Netlify dashboard under "Site settings" → "Environment variables"
+   - Not required by the default template. Add any you introduce later (analytics, contact-form provider, etc.) under "Site settings" → "Environment variables".
 
 ---
 
@@ -234,14 +236,14 @@ sudo certbot --nginx -d yourdomain.com
 
 Before deploying, make sure you've:
 
-- [ ] Updated all content (hero text, projects, about)
-- [ ] Replaced placeholder links with real URLs
-- [ ] Updated social media links
-- [ ] Changed site name and branding
-- [ ] Added your actual project images (if any)
-- [ ] Tested locally with `npm run build` && `npm run start`
+- [ ] Edited `data/projects.json` with your real projects (and removed the example ones)
+- [ ] Updated `config/site.ts` (name, description, nav, social URLs)
+- [ ] Customized hero copy in `components/home-page-client.tsx`
 - [ ] Updated metadata in `app/layout.tsx`
-- [ ] Configured environment variables (if any)
+- [ ] Replaced placeholder links with real URLs throughout
+- [ ] Added your project images under `public/` (if any) and referenced them via `coverImage` / `screenshots` in `data/projects.json`
+- [ ] Tested locally with `npm run build && npm run start`
+- [ ] Configured any environment variables you introduced (none required by default)
 - [ ] Tested on mobile devices
 - [ ] Checked all links work
 - [ ] Reviewed for typos
@@ -322,14 +324,19 @@ Add to `app/layout.tsx` head section.
 
 ## Environment Variables
 
-If you add any environment variables:
+The default template requires **no** environment variables. You only need them if you introduce backend integrations later (analytics, a contact-form provider, etc.).
 
 ### Local (.env.local)
 
+Create the file at the project root only when you need it:
+
 ```env
-NEXT_PUBLIC_API_URL=your-api-url
-EMAIL_SERVICE_KEY=your-key
+# Examples — these are NOT required by the default template
+RESEND_API_KEY=your-key
+NEXT_PUBLIC_PLAUSIBLE_DOMAIN=yoursite.com
 ```
+
+`.env.local` is gitignored — secrets stay on your machine.
 
 ### Production
 
@@ -340,7 +347,7 @@ Add environment variables in your hosting platform:
 - **Railway:** Project → Variables
 - **Amplify:** App Settings → Environment Variables
 
-**Note:** Variables starting with `NEXT_PUBLIC_` are exposed to the browser.
+**Note:** Variables starting with `NEXT_PUBLIC_` are exposed to the browser. Never put secrets behind that prefix.
 
 ---
 

@@ -1,310 +1,269 @@
 # Customization Guide
 
-This guide walks you through customizing every aspect of your Dark React Developer Bundle.
+A section-by-section walkthrough for personalizing the Dark React Developer Bundle.
 
-## Table of Contents
+## Table of contents
 
-1. [Site Configuration](#site-configuration)
-2. [Hero Section](#hero-section)
-3. [Projects Section](#projects-section)
-4. [About Section](#about-section)
-5. [Contact Section](#contact-section)
-6. [Navigation](#navigation)
-7. [Colors & Theme](#colors--theme)
-8. [Typography](#typography)
-9. [Adding New Sections](#adding-new-sections)
+1. [Site configuration](#site-configuration)
+2. [Hero section](#hero-section)
+3. [Projects (the JSON content workflow)](#projects-the-json-content-workflow)
+4. [About section](#about-section)
+5. [Services section](#services-section)
+6. [Contact page](#contact-page)
+7. [Site footer](#site-footer)
+8. [Navigation](#navigation)
+9. [Colors & theme](#colors--theme)
+10. [Typography](#typography)
+11. [Adding a new top-level page](#adding-a-new-top-level-page)
+12. [Tips for buyers](#tips-for-buyers)
 
 ---
 
-## Site Configuration
+## Site configuration
 
 **File:** `config/site.ts`
 
 This is the central configuration file for your portfolio.
 
-### Update Branding
-
 ```typescript
 export const siteConfig = {
-  name: "Your Name",              // Change to your name
-  shortName: "YN",                // 2-3 letter abbreviation
+  name: "Your Name",
+  shortName: "YN",
   description: "Your custom description",
-  url: "https://yoursite.com",    // Your domain
-  // ...
+  url: "https://yoursite.com",
+  navItems: [
+    { title: "Home", href: "/" },
+    { title: "About", href: "/#about" },
+    { title: "Services", href: "/#services" },
+    { title: "Projects", href: "/projects" },
+    { title: "Contact", href: "/contact" },
+  ],
+  links: {
+    github: "https://github.com/yourusername",
+    linkedin: "https://linkedin.com/in/yourusername",
+    twitter: "https://twitter.com/yourusername",
+    email: "mailto:hi@yoursite.com",
+  },
 }
 ```
 
-### Edit Navigation Items
-
-Add, remove, or modify navigation links:
-
-```typescript
-navItems: [
-  {
-    title: "Home",      // Display text
-    href: "#home",      // Anchor link (must match section ID)
-  },
-  {
-    title: "Projects",
-    href: "#projects",
-  },
-  // Add more items...
-],
-```
-
-### Update Social Links
-
-```typescript
-links: {
-  github: "https://github.com/yourusername",
-  downloadBundle: "#download",
-  twitter: "https://twitter.com/yourusername",
-  linkedin: "https://linkedin.com/in/yourusername",
-},
-```
+The same `siteConfig` is consumed by `components/site-navbar.tsx`, `components/ui/sidemenu.tsx`, and `components/site-footer.tsx`.
 
 ---
 
-## Hero Section
+## Hero section
 
-**File:** `app/page.tsx` (lines ~95-140)
+**File:** `components/home-page-client.tsx`
 
-### Change the Main Headline
+This is a client component (because of the framer-motion title animation). The page entry point at `app/page.tsx` is a tiny server component that fetches featured projects and hands them to this file.
 
-Find and edit:
+### Headline
 
-```typescript
-<h1 className="text-4xl font-bold...">
-  Your new headline text
-  <span className="bg-gradient-to-r...">
-    highlighted word
-  </span>
-</h1>
+Two arrays power the staggered word reveal:
+
+```tsx
+{["Creating", "unique", "websites"].map((word, i) => ( … ))}
+{["tailored", "to", "your", "needs"].map((word, i) => ( … ))}
 ```
 
-### Update Subheadline
+The second array is the gradient-highlighted half of the headline. Edit the words in either array.
 
-```typescript
-<p className="mx-auto max-w-2xl...">
-  Your custom description text goes here.
+### Subheadline & CTAs
+
+Just below the headline:
+
+```tsx
+<p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
+  Designing and creating digital, professional, innovative and modern solutions
+  in the fields of web development.
 </p>
 ```
 
-### Modify CTA Buttons
+The two CTA buttons (`Download Resume` and `Contact`) are right under it. Update their `href`s as needed.
 
-```typescript
-<Button size="lg" asChild>
-  <a href="#your-link">
-    Your Button Text
-    <ArrowRight className="ml-2 h-4 w-4" />
-  </a>
-</Button>
-```
+### Feature badges
 
-### Edit Feature Badges
+At the top of the file:
 
-At the top of the file, modify:
-
-```typescript
-const FEATURES_DATA = [
-  "Your Technology 1",
-  "Your Technology 2",
-  "Your Technology 3",
-]
-```
-
-### Change Status Badge
-
-```typescript
-<Badge variant="outline" className="mb-4">
-  ✨ Your custom status message
-</Badge>
+```tsx
+const FEATURES_DATA = ["Web Development", "MERN Dev", "Mobile Dev"]
 ```
 
 ---
 
-## Projects Section
+## Projects (the JSON content workflow)
 
-**File:** `app/page.tsx` (lines ~54-76)
+All projects on the site (homepage strip, `/projects` list, `/projects/<slug>` detail pages) read from a single file:
 
-### Add/Edit Projects
+**File:** `data/projects.json`
 
-Modify the `PROJECTS_DATA` array:
+### The flow
 
-```typescript
-const PROJECTS_DATA = [
-  {
-    id: 1,                          // Unique ID
-    title: "Project Name",          // Project title
-    description: "Brief description of your project.",
-    tags: ["Tech1", "Tech2"],       // Technology tags
-    link: "https://project-url.com", // Project URL or "#"
-  },
-  {
-    id: 2,
-    title: "Another Project",
-    description: "Description here.",
-    tags: ["React", "Node.js"],
-    link: "#",
-  },
-  // Add more projects...
-]
+1. Open `data/projects.json`.
+2. Add / edit / reorder / remove entries in the `projects` array.
+3. Save → `npm run dev` reloads → check the browser.
+4. `git commit -am "Update portfolio"` and `git push`.
+5. Vercel (or your host) redeploys automatically.
+
+There is no admin panel, no database, no CMS.
+
+### Schema (summary)
+
+Required:
+
+| Field         | Type                                                  | Example                                |
+| ------------- | ----------------------------------------------------- | -------------------------------------- |
+| `id`          | string                                                | `"1"`                                  |
+| `slug`        | string (used in URL)                                  | `"creative-agency-website"`            |
+| `title`       | string                                                | `"Creative Agency Website"`            |
+| `description` | string                                                | `"A visually rich agency site …"`      |
+| `category`    | `"creative" \| "real-estate" \| "corporate"`          | `"creative"`                           |
+| `tech`        | array of `"wordpress" \| "react" \| "nextjs" \| "php"`| `["nextjs", "react"]`                  |
+| `completed`   | string (short label)                                  | `"Jan 2025"`                           |
+
+Common optional fields:
+
+| Field            | Effect                                                                              |
+| ---------------- | ----------------------------------------------------------------------------------- |
+| `featured`       | `true` makes the project eligible for the homepage strip (top 3 win).               |
+| `status`         | `"draft"` hides the project everywhere. Defaults to `"published"`.                  |
+| `tags`           | Display tags shown on cards; defaults to a humanised `tech` list (`Next.js`, etc.). |
+| `completionDate` | Long label (e.g. `"January 2025"`); defaults to `completed`.                        |
+| `client`         | Client name for the detail page; defaults to `"Confidential client"`.               |
+| `duration`       | E.g. `"8 weeks"`; defaults to `"—"`.                                                |
+| `websiteUrl`     | Renders the "Live" / "Live Preview" button.                                         |
+| `githubUrl`      | Renders the "GitHub" button.                                                        |
+| `coverImage`     | Public path or full URL; defaults to a generated SVG placeholder.                   |
+| `screenshots`    | `{ homepage, secondary }` — overrides the auto-generated detail-page previews.      |
+| `highlights`     | Array of strings rendered as a checked list on the detail page.                     |
+| `impact`         | Array of `{ title, description }` for the Impact card grid.                         |
+
+The full TypeScript shape (with JSDoc) lives in `lib/projects-data.ts` (`JsonProject`).
+
+### Example
+
+```json
+{
+  "id": "9",
+  "slug": "my-new-project",
+  "status": "published",
+  "featured": true,
+  "title": "My New Project",
+  "description": "What this project does, who it was for, and why it mattered.",
+  "category": "corporate",
+  "tech": ["nextjs", "react"],
+  "completed": "Apr 2026",
+  "completionDate": "April 2026",
+  "client": "Acme Inc.",
+  "duration": "10 weeks",
+  "websiteUrl": "https://example.com",
+  "githubUrl": "https://github.com/me/example",
+  "highlights": [
+    "Built X with Y.",
+    "Improved performance by Z."
+  ],
+  "impact": [
+    { "title": "+50% conversion", "description": "Landing page rewrite shipped 50% more sign-ups." }
+  ]
+}
 ```
 
-### Tips for Projects
+### Editing the section headers (not the data)
 
-- **Keep descriptions concise**: 1-2 sentences max
-- **Use 2-4 tags**: Don't overcrowd with tags
-- **Update links**: Replace "#" with actual project URLs
-- **Add more projects**: Just add new objects to the array
+- Homepage "Featured Projects" title → `components/sections/featured-projects.tsx` (`sectionTitle`, `sectionSubtitle`)
+- `/projects` page title → `components/sections/projects-section.tsx` (`SECTION_TITLE`, `SECTION_SUBTITLE`)
+- Filter labels → `components/projects/projects-filter.tsx`
 
 ---
 
-## About Section
+## About section
 
-**File:** `app/page.tsx` (lines ~196-217)
+**File:** `components/sections/about-section.tsx`
 
-Edit the about text directly:
-
-```typescript
-<section id="about" className="py-20">
-  <div className="mx-auto max-w-3xl text-center">
-    <h2 className="text-3xl font-bold...">
-      About Me  {/* Change heading */}
-    </h2>
-    <div className="mt-6 space-y-4...">
-      <p>
-        Your first paragraph about yourself or your work.
-      </p>
-      <p>
-        Your second paragraph with more details.
-      </p>
-      <p>
-        Optional third paragraph.
-      </p>
-    </div>
-  </div>
-</section>
-```
+Includes an introduction block plus an 8-item shadcn/ui Accordion of skill categories, plus a bento grid of metric cards. Edit the strings, icons, and accordion items in place — the markup is well-commented.
 
 ---
 
-## Contact Section
+## Services section
 
-**File:** `app/page.tsx` (lines ~65-77 and ~227-260)
+**File:** `components/sections/services-section.tsx`
 
-### Update Social Links
+Three minimalist cards. Edit the title, description, and bullets per card directly in the file.
 
-Modify the `SOCIAL_LINKS` array:
+---
 
-```typescript
-const SOCIAL_LINKS = [
-  {
-    name: "GitHub",
-    href: "https://github.com/yourusername",  // Your URL
-    icon: Github,                              // Icon from lucide-react
-  },
-  {
-    name: "LinkedIn",
-    href: "https://linkedin.com/in/yourusername",
-    icon: Linkedin,
-  },
-  {
-    name: "Email",
-    href: "mailto:your.email@example.com",
-    icon: Mail,
-  },
-  // Add more social links...
-]
-```
+## Contact page
 
-### Available Icons
+**Page:** `app/contact/page.tsx`
+**Section:** `components/sections/contact-section.tsx`
 
-Import from `lucide-react`:
-- `Github`
-- `Linkedin`
-- `Mail`
-- `Twitter`
-- `Facebook`
-- `Instagram`
-- And many more at [lucide.dev](https://lucide.dev/)
+Left column: contact info + social links. Right column: inquiry form.
+
+The form is **UI-only** by default — submitting it shows a success state but does not send anything. To wire it up, replace the `handleSubmit` body with a `fetch` call to your provider of choice (Resend, Formspree, your own API route).
+
+When you do, add server-side validation (length, email format) and basic anti-spam (honeypot field or Turnstile/hCaptcha).
+
+---
+
+## Site footer
+
+**File:** `components/site-footer.tsx`
+
+A global "Get in Touch" CTA block plus animated social icons. Used on every page (homepage, `/projects`, `/projects/<slug>`, `/contact`).
+
+- Edit the headline / subhead text directly in the file.
+- The social icon list (`SOCIAL_LINKS`) lives at the top of the file.
+- Hover animation: top-to-bottom slide that plays once per hover (already configured).
 
 ---
 
 ## Navigation
 
 **File:** `components/site-navbar.tsx`
+**Mobile drawer:** `components/ui/sidemenu.tsx`
 
-### Change Brand Display
+The nav reads `siteConfig.navItems` for desktop links and the mobile drawer. The brand label uses `siteConfig.name`.
 
-```typescript
-<Link href="/" className="flex items-center space-x-2">
-  <span className="text-xl font-bold">
-    {siteConfig.name}  {/* Automatically uses config */}
-  </span>
-</Link>
-```
-
-### Modify CTA Buttons
-
-Desktop buttons (lines ~86-95):
-
-```typescript
-<Button variant="outline" size="sm" asChild>
-  <a href={siteConfig.links.github}>
-    Your Button Text
-  </a>
-</Button>
-```
+If you change a nav `href` to a same-page anchor like `/#about`, the smooth-scroll handler in the navbar takes care of the scroll animation.
 
 ---
 
-## Colors & Theme
+## Colors & theme
 
 **File:** `app/globals.css`
 
-### Understanding CSS Variables
-
-The theme uses CSS variables that can be customized:
+The dark theme is defined as CSS variables on `.dark`:
 
 ```css
 .dark {
-  --background: 240 10% 3.9%;      /* Main background */
-  --foreground: 0 0% 98%;          /* Text color */
-  --primary: 0 0% 98%;             /* Primary buttons */
-  --secondary: 240 3.7% 15.9%;     /* Secondary elements */
-  --muted: 240 3.7% 15.9%;         /* Muted text/elements */
-  --border: 240 3.7% 15.9%;        /* Border colors */
-  /* ... more colors ... */
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --secondary: 240 3.7% 15.9%;
+  --muted: 240 3.7% 15.9%;
+  --border: 240 3.7% 15.9%;
+  /* … */
 }
 ```
 
-### Changing Colors
-
-Colors use HSL format: `hue saturation% lightness%`
-
-Example - Make primary color blue:
+Values are HSL (`hue saturation% lightness%`). To shift the accent to blue:
 
 ```css
---primary: 217 91% 60%;  /* Blue instead of white */
+--primary: 217 91% 60%;
 ```
 
-### Quick Color Presets
+Some quick presets:
 
-**Purple theme:**
 ```css
+/* Purple */
 --primary: 270 91% 65%;
 --primary-foreground: 0 0% 100%;
-```
 
-**Green theme:**
-```css
+/* Green */
 --primary: 142 76% 36%;
 --primary-foreground: 0 0% 100%;
-```
 
-**Orange theme:**
-```css
+/* Orange */
 --primary: 24 95% 53%;
 --primary-foreground: 0 0% 100%;
 ```
@@ -315,126 +274,65 @@ Example - Make primary color blue:
 
 **File:** `app/layout.tsx`
 
-### Change Font
-
-Currently uses Inter font. To use a different Google Font:
+The template uses the Inter font by default. To switch:
 
 ```typescript
-import { YourFont } from 'next/font/google'
+import { Poppins } from "next/font/google"
 
-const yourFont = YourFont({ subsets: ['latin'] })
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] })
 
-// Then in the body:
-<body className={yourFont.className}>{children}</body>
-```
-
-Popular alternatives:
-- `Roboto`
-- `Poppins`
-- `Montserrat`
-- `Open_Sans`
-
-### Font Sizes
-
-Controlled by Tailwind classes. Common text sizes:
-
-- Headings: `text-4xl`, `text-5xl`, `text-6xl`
-- Body: `text-base`, `text-lg`
-- Small: `text-sm`, `text-xs`
-
----
-
-## Adding New Sections
-
-### Step 1: Add to Navigation
-
-In `config/site.ts`:
-
-```typescript
-navItems: [
-  // ... existing items
-  {
-    title: "New Section",
-    href: "#new-section",
-  },
-],
-```
-
-### Step 2: Create Section in Page
-
-In `app/page.tsx`, add before the footer:
-
-```typescript
-<Separator className="my-12" />
-
-<section id="new-section" className="py-20">
-  <div className="mx-auto max-w-3xl text-center">
-    <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-      New Section Title
-    </h2>
-    <p className="mt-4 text-lg text-muted-foreground">
-      Section content goes here
-    </p>
-  </div>
-</section>
-```
-
-### Step 3: Add Content
-
-Fill in your section content using existing components like `Button`, `Badge`, `Card` styles, etc.
-
----
-
-## Advanced Customization
-
-### Adding shadcn/ui Components
-
-Install additional components:
-
-```bash
-npx shadcn-ui@latest add card
-npx shadcn-ui@latest add input
-npx shadcn-ui@latest add form
-```
-
-### Custom Animations
-
-Add to `tailwind.config.ts`:
-
-```typescript
-extend: {
-  keyframes: {
-    'custom-animation': {
-      '0%': { opacity: '0', transform: 'translateY(10px)' },
-      '100%': { opacity: '1', transform: 'translateY(0)' },
-    },
-  },
-  animation: {
-    'custom': 'custom-animation 0.5s ease-out',
-  },
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" className="dark">
+      <body className={poppins.className}>{children}</body>
+    </html>
+  )
 }
 ```
 
-Use in components:
+Heading sizes use Tailwind utility classes (`text-4xl`, `text-5xl`, `text-6xl`, …) and can be tuned per-section.
 
-```typescript
-<div className="animate-custom">Content</div>
+---
+
+## Adding a new top-level page
+
+1. Create `app/<your-route>/page.tsx`.
+2. Render `<SiteNavbar />`, your content, and `<SiteFooter />` to keep visual consistency.
+3. (Optional) Reuse the homepage's grid background:
+   ```tsx
+   <div className="fixed inset-0 -z-10 bg-gradient-to-br from-background via-background to-background/95">
+     <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+   </div>
+   ```
+4. Add it to `siteConfig.navItems` in `config/site.ts` so it shows up in the navbar and the mobile drawer.
+
+---
+
+## Adding shadcn/ui components
+
+The template ships with a curated subset of shadcn primitives (`button`, `badge`, `accordion`, `input`, `label`, `textarea`, `separator`, `sidemenu`). To add more:
+
+```bash
+npx shadcn-ui@latest add tabs
 ```
 
----
-
-## Tips for Buyers
-
-1. **Start Simple**: Customize one section at a time
-2. **Test Changes**: Run `npm run dev` and check browser after each change
-3. **Keep Backups**: Save original files before major changes
-4. **Use Git**: Track your changes with version control
-5. **Check Mobile**: Test on mobile devices or use browser dev tools
+This drops the source into `components/ui/`, where you can edit it directly.
 
 ---
 
-Need more help? Check out:
-- `README.md` for general information
-- `INSTALLATION.md` for setup help
-- Next.js documentation at [nextjs.org](https://nextjs.org/docs)
+## Tips for buyers
 
+1. **Edit one section at a time.** Don't try to refactor the whole template on day one.
+2. **Use Git.** Every meaningful change should be a commit — that's also your publish trigger.
+3. **Test on mobile.** Browser dev tools first, then a real phone.
+4. **Keep an eye on `npm audit`.** Patch high/critical issues regularly.
+5. **Strip what you don't need.** Removed sections you won't use (e.g. Services), so the codebase stays small.
+
+---
+
+Need more help?
+
+- `README.md` — high-level overview
+- `INSTALLATION.md` — first-time setup
+- `QUICK-START.md` — 15-minute checklist
+- `DEPLOYMENT.md` — host-specific instructions

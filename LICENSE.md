@@ -4,7 +4,9 @@
 
 **Dark React Developer Bundle**
 
-Version 1.0.0
+**Licensor:** Portfolio Sets ([portfoliosets.com](https://portfoliosets.com))
+
+Version 1.0.1
 
 ---
 
@@ -42,7 +44,6 @@ This license grants you, the purchaser, an ongoing, non-exclusive, worldwide lic
 
 - You are licensed to use the Item to create **unlimited End Products** for yourself or clients
 - An End Product is a customized implementation of the Item
-- End Products must be significantly different from the original template
 
 ### Support and Updates
 
@@ -62,6 +63,12 @@ The template is provided "as is" without warranty of any kind, either expressed 
 - **Non-infringement**
 
 In no event shall the authors or copyright holders be liable for any claim, damages, or other liability arising from the use of the template.
+
+---
+
+## Refunds
+
+All sales are final. Due to the digital nature of this product, refunds are not offered. If you run into issues, contact support first — most problems are quick to resolve.
 
 ---
 
@@ -114,13 +121,13 @@ If you have questions about this license:
 
 ## Changes to Terms
 
-The licensor reserves the right to update these terms. Any changes will be communicated through the purchase platform.
+Portfolio Sets reserves the right to update these terms. Any changes will be communicated through the purchase platform.
 
 ---
 
-**Last Updated:** January 1, 2024
+**Last Updated:** April 20, 2026
 
-**Version:** 1.0.0
+**Version:** 1.0.1
 
 ---
 

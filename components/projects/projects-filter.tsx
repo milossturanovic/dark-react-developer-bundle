@@ -2,16 +2,18 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import type { ProjectCategory, ProjectTech } from "@/lib/projects-data"
 
 // ============================================================================
 // FILTER TYPES
 // ============================================================================
 
-export type ProjectCategory = "all" | "creative" | "real-estate" | "corporate"
-export type ProjectTech = "wordpress" | "react" | "nextjs" | "php"
+/** Filter widens the shared category enum with an "all" option. */
+export type ProjectCategoryFilter = ProjectCategory | "all"
+export type { ProjectCategory, ProjectTech }
 
 export interface FilterState {
-  category: ProjectCategory
+  category: ProjectCategoryFilter
   tech: ProjectTech | null
 }
 
@@ -24,7 +26,7 @@ interface ProjectsFilterProps {
 // FILTER DATA
 // ============================================================================
 
-const CATEGORY_TABS: { value: ProjectCategory; label: string }[] = [
+const CATEGORY_TABS: { value: ProjectCategoryFilter; label: string }[] = [
   { value: "all", label: "All" },
   { value: "creative", label: "Creative" },
   { value: "real-estate", label: "Real Estate" },
@@ -43,7 +45,7 @@ const TECH_CHIPS: { value: ProjectTech; label: string }[] = [
 // ============================================================================
 
 export function ProjectsFilter({ filter, onChange }: ProjectsFilterProps) {
-  const handleCategoryChange = (category: ProjectCategory) => {
+  const handleCategoryChange = (category: ProjectCategoryFilter) => {
     onChange({ ...filter, category })
   }
 

@@ -14,7 +14,7 @@ import { AnimatedSectionTitle } from "@/components/motion/animated-section-title
 import {
   getProjectBySlug,
   getAllProjectSlugs,
-  PROJECTS,
+  getAllProjectDetails,
   type ProjectDetail,
 } from "@/lib/projects-data"
 
@@ -22,8 +22,9 @@ import {
 // STATIC PARAMS
 // ============================================================================
 
-export function generateStaticParams() {
-  return getAllProjectSlugs().map((slug) => ({ slug }))
+export async function generateStaticParams() {
+  const slugs = await getAllProjectSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 // ============================================================================
@@ -35,7 +36,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const project = getProjectBySlug(params.slug)
+  const project = await getProjectBySlug(params.slug)
   if (!project) return {}
   return {
     title: `${project.title} | Projects`,
@@ -137,16 +138,17 @@ function RelatedCard({ project }: { project: ProjectDetail }) {
 // PAGE
 // ============================================================================
 
-export default function ProjectDetailPage({
+export default async function ProjectDetailPage({
   params,
 }: {
   params: { slug: string }
 }) {
-  const project = getProjectBySlug(params.slug)
+  const project = await getProjectBySlug(params.slug)
   if (!project) notFound()
 
-  // Pick up to 2 other projects for the "More Projects" section
-  const related = PROJECTS.filter((p) => p.slug !== project.slug).slice(0, 2)
+  // Pick up to 2 other published projects for the "More Projects" section
+  const all = await getAllProjectDetails()
+  const related = all.filter((p) => p.slug !== project.slug).slice(0, 2)
 
   return (
     <>

@@ -1,57 +1,119 @@
 /**
  * ============================================================================
- * PROJECTS DATA
+ * PROJECTS DATA — JSON FILE + RUNTIME HELPERS
  * ============================================================================
  *
- * DEVELOPER EDIT NOTES:
+ * All project content lives in `data/projects.json`.
  *
- * This is the single source of truth for individual project detail pages.
+ * EDIT YOUR PORTFOLIO:
+ *   1. Open `data/projects.json` in your editor.
+ *   2. Duplicate an existing project block, change the fields.
+ *   3. Save → run locally → check the page.
+ *   4. `git commit -am "Add new project"` and `git push`.
+ *      Vercel (or your host) will redeploy with the new content.
  *
- * HOW TO ADD A PROJECT:
- * 1. Add a new object to the PROJECTS array below.
- * 2. Set a unique `slug` — this becomes the URL: /projects/your-slug
- * 3. Replace placeholder SVG image strings with real image paths once assets exist.
- *    Use public/ folder: e.g. image: "/images/projects/my-project-hero.jpg"
+ * SCHEMA:
+ *   See `JsonProject` below for every field. Required fields:
+ *     id, slug, title, description, category, tech, completed
  *
- * HOW TO LINK FROM THE LIST PAGE:
- * - In components/sections/projects-section.tsx, add `slug` to each project
- *   and wrap the card in <Link href={`/projects/${project.slug}`}>
- *
- * IMAGES:
- * - Currently using inline SVG data URIs as placeholders.
- * - Replace with real paths under /public when available.
+ * Optional fields are filled with sensible SVG placeholders when missing —
+ * see `toProjectDetail()` below.
  *
  * ============================================================================
  */
 
-// ============================================================================
-// TYPES
-// ============================================================================
+import { cache } from "react"
+import { readFile } from "fs/promises"
+import { join } from "path"
+
+// ---------------------------------------------------------------------------
+// SHARED TYPES — used by JSON, the filter UI, and the detail page
+// ---------------------------------------------------------------------------
 
 export type ProjectCategory = "creative" | "real-estate" | "corporate"
+export type ProjectTech = "wordpress" | "react" | "nextjs" | "php"
 
+/** Shape stored in `data/projects.json` (the only file you edit). */
+export type JsonProject = {
+  id: string
+  slug: string
+  /** "draft" hides the project everywhere on the site. Defaults to "published". */
+  status?: "draft" | "published"
+  /** When true, eligible for the homepage "Featured Projects" strip. */
+  featured?: boolean
+  title: string
+  description: string
+  category: ProjectCategory
+  tech: ProjectTech[]
+  /** Display tags shown on cards (defaults to humanised `tech`). */
+  tags?: string[]
+  /** Short completion label, e.g. "Oct 2024". */
+  completed: string
+  /** Long completion label, e.g. "October 2024". Defaults to `completed`. */
+  completionDate?: string
+  client?: string
+  duration?: string
+  /** Path under /public, full URL, or data URI. Defaults to a generated SVG. */
+  coverImage?: string
+  websiteUrl?: string
+  githubUrl?: string
+  highlights?: string[]
+  impact?: { title: string; description: string }[]
+  /** Override the auto-generated detail-page screenshots. */
+  screenshots?: { homepage?: string; secondary?: string }
+}
+
+/** Rich shape consumed by the single-project page. */
 export type ProjectDetail = {
   slug: string
   title: string
   category: ProjectCategory
   client: string
-  logo: string          // Path or data URI — replace with /public asset
-  duration: string      // e.g. "6 weeks"
+  logo: string
+  duration: string
   completionDate: string
   websiteUrl?: string
+  githubUrl?: string
   description: string
   tech: string[]
   highlights?: string[]
   impact?: { title: string; description: string }[]
   screenshots: {
-    homepage: string    // Main hero screenshot
-    secondary: string   // Gallery / secondary view
+    homepage: string
+    secondary: string
   }
 }
 
-// ============================================================================
-// SVG PLACEHOLDER HELPERS
-// ============================================================================
+/** Lightweight card shape used by the homepage's "Featured Projects" grid. */
+export type FeaturedProjectCard = {
+  id: string
+  slug: string
+  title: string
+  completed: string
+  tags: string[]
+  imageSvgDataUri: string
+  description?: string
+  href?: { live?: string; github?: string } | string
+}
+
+/** Card shape used by the /projects list page. */
+export type ListProjectCard = {
+  id: string
+  slug: string
+  title: string
+  category: ProjectCategory
+  tech: ProjectTech[]
+  image: string
+  completed: string
+  description?: string
+  href?: { live?: string; github?: string } | string
+}
+
+const DATA_PATH = join(process.cwd(), "data", "projects.json")
+
+// ---------------------------------------------------------------------------
+// SVG PLACEHOLDERS (used when JSON omits image fields)
+// ---------------------------------------------------------------------------
 
 function makeScreenshot(label: string, accent: string) {
   return `data:image/svg+xml,${encodeURIComponent(
@@ -84,110 +146,161 @@ function makeLogo(initials: string, bg: string) {
   )}`
 }
 
-// ============================================================================
-// PROJECTS DATA
-// ============================================================================
-
-export const PROJECTS: ProjectDetail[] = [
-  {
-    slug: "creative-agency-website",
-    title: "Creative Agency Website",
-    category: "creative",
-    client: "Studio North",
-    logo: makeLogo("SN", "#3b1f6e"),
-    duration: "8 weeks",
-    completionDate: "January 2025",
-    websiteUrl: "https://example.com",
-    description:
-      "A visually driven agency website built to communicate brand personality through motion, typography, and scroll-based storytelling. The goal was to balance aesthetic ambition with real-world performance targets.",
-    tech: ["Next.js", "React", "Framer Motion", "Tailwind CSS", "TypeScript"],
-    highlights: [
-      "Custom scroll-triggered animation system built with Framer Motion",
-      "Page transition architecture that maintains scroll position across routes",
-      "Fully responsive layout tested across 12 device breakpoints",
-      "Integrated CMS for the team to manage case studies independently",
-      "Core Web Vitals scores maintained above 90 post-launch",
-    ],
-    impact: [
-      { title: "Lower Bounce Rate", description: "Bounce rate reduced by 34% compared to the previous site within the first month post-launch." },
-      { title: "Longer Sessions", description: "Average session duration increased from 1:12 to 2:48, reflecting stronger content engagement." },
-      { title: "More Enquiries", description: "Client reported a measurable increase in inbound enquiries within 30 days of going live." },
-    ],
-    screenshots: {
-      homepage: makeScreenshot("Homepage — Hero Section", "#1e1a2e"),
-      secondary: makeScreenshot("Case Studies Grid", "#2a1e3e"),
-    },
-  },
-  {
-    slug: "property-listing-platform",
-    title: "Property Listing Platform",
-    category: "real-estate",
-    client: "Meridian Realty",
-    logo: makeLogo("MR", "#1a3d2e"),
-    duration: "12 weeks",
-    completionDate: "December 2024",
-    websiteUrl: "https://example.com",
-    githubUrl: "https://github.com/yourusername/property-listing",
-    description:
-      "A WordPress-powered real estate portal with advanced property search, saved listings, and map-based browsing. Built to handle a large and frequently updated property inventory with minimal editorial overhead.",
-    tech: ["WordPress", "PHP", "MySQL", "Google Maps API", "ACF Pro", "SASS"],
-    highlights: [
-      "Custom post type architecture for structured property data",
-      "Map-based search with polygon drawing and radius filtering",
-      "Agent profile system with listing attribution",
-      "Mortgage calculator integrated directly into listing pages",
-      "Automated XML feed import from the client's MLS provider",
-    ],
-    impact: [
-      { title: "Search Adoption", description: "Property search usage increased 60% compared to the previous site after launch." },
-      { title: "Faster Editing", description: "Editorial team reduced listing update time from 20 minutes to under 5 minutes per entry." },
-      { title: "Scalable Architecture", description: "Site handles 500+ active listings without performance degradation under normal traffic." },
-    ],
-    screenshots: {
-      homepage: makeScreenshot("Homepage — Search Bar + Featured Listings", "#1a2e1e"),
-      secondary: makeScreenshot("Listing Detail Page with Map", "#1e2e1a"),
-    },
-  },
-  {
-    slug: "b2b-saas-dashboard",
-    title: "B2B SaaS Dashboard",
-    category: "corporate",
-    client: "Praxis Analytics",
-    logo: makeLogo("PA", "#1a1f3d"),
-    duration: "16 weeks",
-    completionDate: "August 2024",
-    description:
-      "An internal analytics dashboard for a B2B SaaS company, providing teams with a real-time view of pipeline health, customer activity, and operational metrics. Focus was on clarity, speed, and role-based data access.",
-    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Recharts", "REST API"],
-    highlights: [
-      "Role-based access control with four permission tiers",
-      "Modular widget system allowing teams to configure their own dashboard views",
-      "CSV and PDF export for all major data tables",
-      "Optimistic UI updates for faster perceived performance",
-      "Comprehensive error boundary and fallback state handling",
-    ],
-    impact: [
-      { title: "Consolidated Tooling", description: "Replaced three separate internal tools with one unified interface, reducing context switching." },
-      { title: "Faster Reporting", description: "Weekly review reporting time reduced from 2 hours to under 20 minutes across all teams." },
-      { title: "Rapid Adoption", description: "Adopted by 4 internal teams within 6 weeks of launch with minimal onboarding required." },
-    ],
-    screenshots: {
-      homepage: makeScreenshot("Dashboard — Pipeline Overview", "#1e1e2e"),
-      secondary: makeScreenshot("Customer Activity Detail View", "#1a1a2e"),
-    },
-  },
-]
-
-// ============================================================================
-// LOOKUP HELPERS
-// ============================================================================
-
-/** Returns a project by its slug, or undefined if not found. */
-export function getProjectBySlug(slug: string): ProjectDetail | undefined {
-  return PROJECTS.find((p) => p.slug === slug)
+function accentForCategory(c: ProjectCategory): string {
+  switch (c) {
+    case "creative":
+      return "#1e1a2e"
+    case "real-estate":
+      return "#1a2e1e"
+    case "corporate":
+      return "#1e1e2e"
+    default:
+      return "#1e1e1e"
+  }
 }
 
-/** Returns all slugs — used for generateStaticParams in the dynamic route. */
-export function getAllProjectSlugs(): string[] {
-  return PROJECTS.map((p) => p.slug)
+function initialsFromClient(client: string): string {
+  const parts = client.trim().split(/\s+/).filter(Boolean)
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
+  }
+  return client.slice(0, 2).toUpperCase() || "PR"
+}
+
+function techLabel(t: ProjectTech): string {
+  switch (t) {
+    case "nextjs":
+      return "Next.js"
+    case "wordpress":
+      return "WordPress"
+    case "php":
+      return "PHP"
+    case "react":
+      return "React"
+    default:
+      return t
+  }
+}
+
+function hrefFromLinks(p: JsonProject): ListProjectCard["href"] {
+  const live = p.websiteUrl?.trim()
+  const github = p.githubUrl?.trim()
+  if (live || github) {
+    return { live: live || undefined, github: github || undefined }
+  }
+  return undefined
+}
+
+// ---------------------------------------------------------------------------
+// LOAD (cached per render)
+// ---------------------------------------------------------------------------
+
+export const loadJsonProjects = cache(async (): Promise<JsonProject[]> => {
+  try {
+    const raw = await readFile(DATA_PATH, "utf8")
+    const parsed = JSON.parse(raw) as { projects?: JsonProject[] }
+    if (!parsed.projects || !Array.isArray(parsed.projects)) {
+      console.error(
+        '[projects-data] data/projects.json must contain a { "projects": [...] } array.'
+      )
+      return []
+    }
+    return parsed.projects
+  } catch (error) {
+    console.error("[projects-data] failed to read data/projects.json:", error)
+    return []
+  }
+})
+
+export async function getPublishedJsonProjects(): Promise<JsonProject[]> {
+  const all = await loadJsonProjects()
+  return all.filter((p) => (p.status ?? "published") === "published")
+}
+
+// ---------------------------------------------------------------------------
+// MAPPERS — JSON → page-specific shapes
+// ---------------------------------------------------------------------------
+
+export function toProjectDetail(p: JsonProject): ProjectDetail {
+  const client = p.client?.trim() || "Confidential client"
+  const accent = accentForCategory(p.category)
+  const homepage =
+    p.screenshots?.homepage?.trim() ||
+    p.coverImage?.trim() ||
+    makeScreenshot(`${p.title} — preview`, accent)
+  const secondary =
+    p.screenshots?.secondary?.trim() ||
+    makeScreenshot(`${p.title} — detail`, accent)
+
+  return {
+    slug: p.slug,
+    title: p.title,
+    category: p.category,
+    client,
+    logo: makeLogo(initialsFromClient(client), accent),
+    duration: p.duration?.trim() || "—",
+    completionDate: p.completionDate?.trim() || p.completed,
+    websiteUrl: p.websiteUrl?.trim() || undefined,
+    githubUrl: p.githubUrl?.trim() || undefined,
+    description: p.description,
+    tech: p.tags?.length ? p.tags : p.tech.map(techLabel),
+    highlights: p.highlights,
+    impact: p.impact,
+    screenshots: { homepage, secondary },
+  }
+}
+
+export async function getAllProjectDetails(): Promise<ProjectDetail[]> {
+  const published = await getPublishedJsonProjects()
+  return published.map(toProjectDetail)
+}
+
+export async function getProjectBySlug(
+  slug: string
+): Promise<ProjectDetail | undefined> {
+  const published = await getPublishedJsonProjects()
+  const raw = published.find((p) => p.slug === slug)
+  return raw ? toProjectDetail(raw) : undefined
+}
+
+export async function getAllProjectSlugs(): Promise<string[]> {
+  const published = await getPublishedJsonProjects()
+  return published.map((p) => p.slug)
+}
+
+export async function getListProjects(): Promise<ListProjectCard[]> {
+  const published = await getPublishedJsonProjects()
+  return published.map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    category: p.category,
+    tech: p.tech,
+    image:
+      p.coverImage?.trim() ||
+      makeScreenshot(p.title, accentForCategory(p.category)),
+    completed: p.completed,
+    description: p.description,
+    href: hrefFromLinks(p),
+  }))
+}
+
+export async function getFeaturedProjects(
+  limit = 3
+): Promise<FeaturedProjectCard[]> {
+  const published = await getPublishedJsonProjects()
+  const featured = published.filter((p) => p.featured)
+  const ordered = featured.length > 0 ? featured : published
+  return ordered.slice(0, limit).map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    completed: p.completed,
+    tags: p.tags?.length ? p.tags : p.tech.map(techLabel),
+    imageSvgDataUri:
+      p.coverImage?.trim() ||
+      makeScreenshot(p.title, accentForCategory(p.category)),
+    description: p.description,
+    href: hrefFromLinks(p),
+  }))
 }

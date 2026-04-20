@@ -2,6 +2,48 @@
 
 All notable changes to the Dark React Developer Bundle will be documented in this file.
 
+## [1.1.0] - 2026-04-19
+
+### Major changes
+
+- **Single source of truth for all projects.** Every project on the site now reads from `data/projects.json`. The hardcoded `PROJECTS_DATA` arrays in `app/page.tsx`, `components/sections/featured-projects.tsx`, and `components/sections/projects-section.tsx` are gone, along with `lib/projects-data.ts`'s former hardcoded detail array.
+- **New `lib/projects-data.ts`.** Server-side JSON loader (cached with `react/cache`) plus typed mappers (`getFeaturedProjects`, `getListProjects`, `getProjectBySlug`, `getAllProjectSlugs`, `getAllProjectDetails`). Includes shared types (`ProjectCategory`, `ProjectTech`, `JsonProject`, `ProjectDetail`, …) used across the public site.
+- **`app/page.tsx` split into a server entry + a client component.** The new `components/home-page-client.tsx` houses the hero animations and section composition; `app/page.tsx` is now a small server component that fetches `featuredProjects` and passes them in.
+- **Async pages.** `app/projects/page.tsx` and `app/projects/[slug]/page.tsx` are now async server components. `generateStaticParams` and `generateMetadata` were updated accordingly.
+- **Filter / card components are prop-driven.** `FeaturedProjects`, `ProjectsSection`, and `RelatedCard` accept project data via props instead of importing it from a constant.
+
+### Removed (admin dashboard era)
+
+- `app/admin/**` — login, dashboard, projects CRUD, content/media/settings placeholders.
+- `app/api/admin/**` — login / logout / check-auth / projects API routes.
+- `middleware.ts` — server-side admin route protection.
+- `lib/admin-auth.ts` and `lib/rate-limiter.ts`.
+- `components/admin/**` — sidebar, header, project form.
+- Admin-only shadcn primitives: `card`, `table`, `dialog`, `select`, `dropdown-menu`, `skeleton`.
+- `data/projects.example.json`, `.env.example`, `.env.local`, `SECURITY.md`.
+- Outdated docs: `COMPONENTS.md`, `GLOBE-INSTALLATION.md`.
+
+### Dependencies removed
+
+- `sonner`
+- `react-simple-maps`
+- `@radix-ui/react-dialog`
+- `@radix-ui/react-dropdown-menu`
+- `@radix-ui/react-select`
+
+(52 packages uninstalled in total.)
+
+### Docs
+
+- Rewrote `README.md`, `CUSTOMIZATION.md`, `QUICK-START.md` around the JSON content workflow.
+- Updated `INSTALLATION.md` and `DEPLOYMENT.md` to drop admin/env-var references.
+
+### Why
+
+The admin dashboard added significant code (~1,500 lines), required filesystem-write hosts, and introduced its own security model. For a portfolio template aimed at junior developers, "edit JSON, push, done" is simpler, safer, and works on Vercel out of the box.
+
+---
+
 ## [1.0.0] - 2024-01-01
 
 ### Initial Release

@@ -1,89 +1,216 @@
 {
+  "_comment": "EDIT THIS FILE TO MANAGE YOUR PORTFOLIO. See lib/projects-data.ts for the full schema.",
+  "_workflow": "1) Edit a project. 2) `npm run dev` to preview. 3) `git commit -am '...' && git push` to deploy.",
+  "_required_fields": ["id", "slug", "title", "description", "category", "tech", "completed"],
+  "_optional_fields": [
+    "status",
+    "featured",
+    "tags",
+    "completionDate",
+    "client",
+    "duration",
+    "coverImage",
+    "websiteUrl",
+    "githubUrl",
+    "highlights",
+    "impact",
+    "screenshots"
+  ],
+  "_enums": {
+    "status": ["draft", "published"],
+    "category": ["creative", "real-estate", "corporate"],
+    "tech": ["wordpress", "react", "nextjs", "php"]
+  },
   "projects": [
     {
-      "id": "luxury-real-estate",
-      "slug": "luxury-real-estate",
-      "title": "Luxury Real Estate Platform",
-      "description": "A high-end real estate platform featuring property listings, advanced search with map integration, virtual tours, and agent dashboards. Built for performance and visual impact.",
-      "coverImage": "/placeholder-project.svg",
-      "galleryImages": [],
-      "tags": [
-        "Next.js",
-        "React",
-        "Tailwind CSS",
-        "TypeScript"
-      ],
+      "id": "1",
+      "slug": "creative-agency-website",
       "status": "published",
-      "category": "Real Estate",
-      "links": {
-        "live": "https://example.com",
-        "github": "https://github.com/example/luxury-real-estate"
-      },
-      "createdAt": "2025-08-15T00:00:00.000Z",
-      "updatedAt": "2025-10-20T00:00:00.000Z"
-    },
-    {
-      "id": "saas-dashboard",
-      "slug": "saas-dashboard",
-      "title": "SaaS Analytics Dashboard",
-      "description": "A comprehensive analytics dashboard for a SaaS product, featuring real-time data visualization, user management, billing integration, and customizable report generation.",
-      "coverImage": "/placeholder-project.svg",
-      "galleryImages": [],
-      "tags": [
-        "React",
-        "TypeScript",
-        "Tailwind CSS",
-        "shadcn/ui"
-      ],
-      "status": "published",
-      "category": "Corporate",
-      "links": {
-        "live": "https://example.com",
-        "github": "https://github.com/example/saas-dashboard"
-      },
-      "createdAt": "2025-06-10T00:00:00.000Z",
-      "updatedAt": "2025-09-05T00:00:00.000Z"
-    },
-    {
-      "id": "creative-agency-site",
-      "slug": "creative-agency-site",
+      "featured": true,
       "title": "Creative Agency Website",
-      "description": "A bold, animation-rich website for a creative agency showcasing their portfolio, team, and services. Includes a custom CMS integration for content management.",
-      "coverImage": "/placeholder-project.svg",
-      "galleryImages": [],
-      "tags": [
-        "Next.js",
-        "WordPress",
-        "PHP",
-        "Tailwind CSS"
+      "description": "A visually rich agency site with motion design, custom transitions, and a content-managed blog. Built to make small studios look like big ones.",
+      "category": "creative",
+      "tech": ["nextjs", "react"],
+      "completed": "Jan 2025",
+      "completionDate": "January 2025",
+      "client": "Northwind Studio",
+      "duration": "8 weeks",
+      "websiteUrl": "https://example.com",
+      "githubUrl": "https://github.com/example/creative-agency",
+      "highlights": [
+        "Bespoke landing page with scroll-driven hero animations.",
+        "Headless CMS integration so the studio can publish case studies in minutes.",
+        "Motion-friendly without sacrificing Lighthouse scores (95+ on mobile)."
       ],
-      "status": "draft",
-      "category": "Creative",
-      "links": {
-        "live": "",
-        "github": ""
-      },
-      "createdAt": "2025-11-01T00:00:00.000Z",
-      "updatedAt": "2025-11-01T00:00:00.000Z"
+      "impact": [
+        {
+          "title": "+38% engagement",
+          "description": "Average session duration almost doubled compared to the previous WordPress build."
+        },
+        {
+          "title": "1.2s LCP",
+          "description": "Largest Contentful Paint dropped from 4.6s to 1.2s on a mid-tier mobile."
+        },
+        {
+          "title": "0 designer handoff bugs",
+          "description": "Design tokens shared via Tailwind config eliminated the usual nitpicks."
+        }
+      ]
     },
     {
-      "id": "test",
-      "slug": "test",
-      "title": "test",
-      "description": "test",
-      "coverImage": "/placeholder-project.svg",
-      "galleryImages": [],
-      "tags": [
-        "react"
-      ],
+      "id": "2",
+      "slug": "property-listing-platform",
       "status": "published",
-      "category": "Real Estate",
-      "links": {
-        "live": "https://www.google.com/",
-        "github": ""
-      },
-      "createdAt": "2026-04-15T23:04:35.372Z",
-      "updatedAt": "2026-04-15T23:04:35.372Z"
+      "featured": true,
+      "title": "Property Listing Platform",
+      "description": "WordPress-powered real estate portal with advanced search, map integration, and a custom agent dashboard for managing listings end-to-end.",
+      "category": "real-estate",
+      "tech": ["wordpress", "php"],
+      "completed": "Dec 2024",
+      "completionDate": "December 2024",
+      "client": "Ocean Realty",
+      "duration": "12 weeks",
+      "websiteUrl": "https://example.com",
+      "highlights": [
+        "Custom Gutenberg blocks for listings, agents, and neighbourhoods.",
+        "MLS feed sync with image normalisation and de-duping.",
+        "Saved-search alerts so buyers get notified the moment a match goes live."
+      ],
+      "impact": [
+        {
+          "title": "3x lead volume",
+          "description": "Inbound buyer enquiries tripled within the first quarter post-launch."
+        },
+        {
+          "title": "-65% admin time",
+          "description": "Agents spend a fraction of the time on listing entry thanks to bulk tools."
+        },
+        {
+          "title": "Mobile-first redesign",
+          "description": "78% of traffic is mobile — every flow was built phone-first."
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "slug": "b2b-saas-dashboard",
+      "status": "published",
+      "featured": true,
+      "title": "B2B SaaS Dashboard",
+      "description": "Analytics dashboard for a B2B reporting tool with real-time charts, role-based access, billing hooks, and one-click CSV / PDF exports.",
+      "category": "corporate",
+      "tech": ["react", "nextjs"],
+      "completed": "Aug 2024",
+      "completionDate": "August 2024",
+      "client": "Confidential",
+      "duration": "16 weeks",
+      "websiteUrl": "https://example.com",
+      "githubUrl": "https://github.com/example/saas-dashboard",
+      "highlights": [
+        "Role-based dashboards for admins, managers, and viewers.",
+        "Streaming charts powered by Server-Sent Events.",
+        "Stripe integration with metered billing and dunning emails."
+      ],
+      "impact": [
+        {
+          "title": "<200ms p95",
+          "description": "Edge-rendered pages keep the dashboard snappy even on flaky networks."
+        },
+        {
+          "title": "+24% upgrades",
+          "description": "Inline upgrade prompts shipped 24% more pro-tier conversions."
+        },
+        {
+          "title": "Zero downtime",
+          "description": "Six months in production without a customer-facing incident."
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "slug": "portfolio-blog",
+      "status": "published",
+      "title": "Portfolio & Blog",
+      "description": "Minimal personal portfolio with an MDX-powered blog, dark mode, RSS feed, and Framer Motion-driven micro-interactions.",
+      "category": "creative",
+      "tech": ["nextjs", "react"],
+      "completed": "Oct 2024",
+      "completionDate": "October 2024",
+      "client": "Personal",
+      "duration": "3 weeks",
+      "websiteUrl": "https://example.com",
+      "githubUrl": "https://github.com/example/portfolio-blog",
+      "highlights": [
+        "MDX blog with shiki-powered code highlighting.",
+        "Type-safe frontmatter validated at build time.",
+        "RSS feed and JSON sitemap generated on every build."
+      ]
+    },
+    {
+      "id": "5",
+      "slug": "real-estate-cms",
+      "status": "published",
+      "title": "Real Estate CMS",
+      "description": "Custom WordPress theme with MLS data feeds, mortgage calculator, and a saved-favourites flow for prospective buyers.",
+      "category": "real-estate",
+      "tech": ["wordpress", "php"],
+      "completed": "Sep 2024",
+      "completionDate": "September 2024",
+      "client": "Harbour Homes",
+      "duration": "10 weeks",
+      "websiteUrl": "https://example.com",
+      "highlights": [
+        "Custom post types for listings, neighbourhoods, and agents.",
+        "Front-end mortgage calculator with shareable URLs.",
+        "Favourite-properties flow stored against logged-in buyer accounts."
+      ]
+    },
+    {
+      "id": "6",
+      "slug": "corporate-intranet",
+      "status": "published",
+      "title": "Corporate Intranet",
+      "description": "Internal company portal with document management, team directory, and a lightweight approvals workflow for HR requests.",
+      "category": "corporate",
+      "tech": ["react", "php"],
+      "completed": "Nov 2024",
+      "completionDate": "November 2024",
+      "client": "Confidential",
+      "duration": "14 weeks",
+      "githubUrl": "https://github.com/example/corporate-intranet",
+      "highlights": [
+        "SAML single sign-on with role-based access controls.",
+        "Document workspace with version history and inline preview.",
+        "Slack notifications wired to the approvals workflow."
+      ]
+    },
+    {
+      "id": "7",
+      "slug": "brand-identity-site",
+      "status": "published",
+      "title": "Brand Identity Site",
+      "description": "Storytelling-first brand website with scroll-triggered reveals, an integrated press kit, and a music-friendly autoplay strategy.",
+      "category": "creative",
+      "tech": ["wordpress"],
+      "completed": "Jul 2024",
+      "completionDate": "July 2024",
+      "client": "Studio Halcyon",
+      "duration": "6 weeks",
+      "websiteUrl": "https://example.com"
+    },
+    {
+      "id": "8",
+      "slug": "enterprise-landing-pages",
+      "status": "published",
+      "title": "Enterprise Landing Pages",
+      "description": "High-converting landing-page system built on a custom WordPress page builder so the marketing team can ship pages without engineering.",
+      "category": "corporate",
+      "tech": ["wordpress", "php"],
+      "completed": "Jun 2024",
+      "completionDate": "June 2024",
+      "client": "Confidential",
+      "duration": "9 weeks",
+      "websiteUrl": "https://example.com"
     }
   ]
 }

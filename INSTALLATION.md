@@ -4,16 +4,48 @@
 
 ### 1. Prerequisites
 
-Before you begin, ensure you have the following installed:
+Before you begin, ensure you have the following installed.
 
-- **Node.js** (version 18.0 or higher)
+#### Required
+
+- **Node.js** — version **18.17 or higher** (Next.js 14 requirement)
+  - Recommended: **Node.js 20 LTS** or **Node.js 22 LTS** (this template is built and tested on Node 22)
   - Download from [nodejs.org](https://nodejs.org/)
-  - Verify installation: `node --version`
+  - Verify: `node --version` → should output `v18.17.x` or higher
 
-- **Package Manager** (choose one):
-  - npm (comes with Node.js)
-  - yarn: `npm install -g yarn`
-  - pnpm: `npm install -g pnpm`
+- **Package Manager** — choose one:
+  - **npm** — version **9 or higher** (bundled with Node 18.17+, tested on npm 10)
+    - Verify: `npm --version`
+  - **yarn** — classic `1.22+` or berry `4+`: `npm install -g yarn`
+  - **pnpm** — version **8 or higher**: `npm install -g pnpm`
+
+- **Git** — version **2.30 or higher** (required for the content publishing workflow — you edit `data/projects.json` and `git push` to deploy)
+  - Download from [git-scm.com](https://git-scm.com/)
+  - Verify: `git --version`
+
+#### Recommended
+
+- **VS Code** (latest) with these extensions for the best developer experience:
+  - Tailwind CSS IntelliSense
+  - ESLint
+  - Prettier
+  - ES7+ React/Redux/React-Native snippets
+
+- **Modern browser** for local preview: Chrome/Edge 120+, Firefox 120+, or Safari 17+.
+
+#### Installed automatically by `npm install` (informational)
+
+| Package | Version shipped with this template |
+|---|---|
+| Next.js | `14.2.x` |
+| React / React DOM | `18.3.x` |
+| TypeScript | `5.9.x` |
+| Tailwind CSS | `3.4.x` |
+| framer-motion | `10.18.x` |
+| three.js | `0.160.x` |
+| ESLint | `8.57.x` |
+
+You do not need to install any of the above manually.
 
 ### 2. Extract and Navigate
 
@@ -120,12 +152,13 @@ If you encounter TypeScript errors:
 
 ## Next Steps
 
-1. **Customize Content**: Edit `app/page.tsx` to update your content
-2. **Update Configuration**: Modify `config/site.ts` for branding and links
-3. **Change Colors**: Customize theme in `app/globals.css`
-4. **Add Projects**: Update the `PROJECTS_DATA` array
+1. **Add your projects**: Open `data/projects.json` — that file is the single source of truth for everything that appears on `/`, `/projects`, and `/projects/<slug>`. The full schema lives at the top of `lib/projects-data.ts`.
+2. **Update branding & nav**: Edit `config/site.ts` (site name, nav links, social URLs).
+3. **Customize hero copy**: Edit `components/home-page-client.tsx` (headline, subheadline, CTA buttons).
+4. **Tweak section content**: About/Services/Footer sections live in `components/sections/`.
+5. **Change colors**: CSS variables in `app/globals.css`.
 
-See `README.md` for detailed customization instructions.
+See `CUSTOMIZATION.md` for the full walkthrough or `README.md` for an overview.
 
 ## Building for Production
 

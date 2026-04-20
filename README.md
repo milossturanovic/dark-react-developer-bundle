@@ -1,238 +1,170 @@
-# Dark React Developer Bundle 🌙
+# Dark React Developer Bundle
 
-A modern, minimalist dark-themed portfolio template built with Next.js 14, TypeScript, Tailwind CSS, and shadcn/ui.
+A modern, dark-themed developer portfolio template built with Next.js 14, TypeScript, Tailwind CSS, and shadcn/ui.
 
-![Next.js](https://img.shields.io/badge/Next.js-14.0-black?style=flat-square&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=flat-square&logo=typescript)
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=flat-square&logo=tailwind-css)
 
-## ✨ Features
+---
 
-- **Modern Dark Theme** - Carefully crafted dark color scheme with subtle gradients
-- **Fully Responsive** - Mobile-first design that looks great on all devices
-- **Next.js App Router** - Built with the latest Next.js features
-- **TypeScript** - Type-safe code for better developer experience
-- **shadcn/ui Components** - Beautiful, accessible UI components
-- **Easy Customization** - Clear code structure with editable data arrays
-- **SEO Ready** - Proper meta tags and semantic HTML
-- **Fast Performance** - Optimized for speed and Core Web Vitals
+## What's inside
 
-## 🚀 Quick Start
+- **Pages**: Home, `/projects`, `/projects/[slug]` (dynamic detail pages), `/contact`.
+- **Sections**: Hero with rotating dotted globe, About (8-item accordion), Services, Featured Projects, Site Footer with CTA.
+- **Filtering**: Category + tech filters on the projects page.
+- **Animations**: Framer Motion hero, animated section titles, social-link micro-interactions, image lightbox.
+- **Single content source**: every project on the site is read from `data/projects.json`.
+- **No backend, no database, no env vars required.**
 
-### Prerequisites
+---
 
-- Node.js 18.0 or higher
-- npm, yarn, or pnpm
-
-### Installation
-
-1. **Install dependencies:**
+## Quick start
 
 ```bash
 npm install
-# or
-yarn install
-# or
-pnpm install
+npm run dev
 ```
 
-2. **Run the development server:**
+Open <http://localhost:3000>.
+
+To build for production:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+npm run build
+npm run start
 ```
 
-3. **Open your browser:**
+---
 
-Navigate to [http://localhost:3000](http://localhost:3000) to see your portfolio.
+## How to edit your portfolio
 
-## 📝 Customization Guide
+This template is intentionally simple to publish:
 
-### 1. Site Branding & Navigation
+1. **Edit `data/projects.json`** — add, edit, reorder, or remove projects.
+2. **Run `npm run dev`** to preview.
+3. **`git commit` and `git push`** — your hosting platform redeploys automatically.
 
-Edit `config/site.ts` to customize:
-- Site name and description
-- Navigation menu items
-- Social media links
+No CMS, no database, no admin login.
 
-```typescript
-export const siteConfig = {
-  name: "Your Name",
-  shortName: "YN",
-  description: "Your custom description",
-  navItems: [
-    // Add/remove navigation items
-  ],
-  links: {
-    // Update your social links
-  },
-}
-```
+### Project schema
 
-### 2. Hero Section
+Required fields: `id`, `slug`, `title`, `description`, `category`, `tech`, `completed`.
 
-Edit `app/page.tsx` to customize the hero section:
-- Main headline (line ~104)
-- Subheadline text (line ~113)
-- CTA button text and links (line ~119)
-- Feature badges in `FEATURES_DATA` array (line ~48)
+Common optional fields: `featured`, `status`, `client`, `duration`, `completionDate`, `websiteUrl`, `githubUrl`, `tags`, `highlights`, `impact`, `coverImage`, `screenshots`.
 
-### 3. Projects
+Enums:
 
-Update the `PROJECTS_DATA` array in `app/page.tsx`:
+- `category`: `"creative" | "real-estate" | "corporate"`
+- `tech`: any combination of `"wordpress" | "react" | "nextjs" | "php"`
+- `status`: `"published"` (default) or `"draft"` (hidden everywhere)
 
-```typescript
-const PROJECTS_DATA = [
-  {
-    id: 1,
-    title: "Your Project",
-    description: "Project description",
-    tags: ["Tech", "Stack"],
-    link: "#",
-  },
-  // Add more projects...
-]
-```
+The full schema (with JSDoc) lives at the top of `lib/projects-data.ts`.
 
-### 4. About & Contact
+### Featured projects
 
-- **About section:** Edit content in `app/page.tsx` (line ~196)
-- **Contact links:** Update `SOCIAL_LINKS` array (line ~65)
+Mark a project with `"featured": true` to make it eligible for the homepage strip. The first 3 featured (or first 3 published, if none are featured) appear on `/`.
 
-### 5. Colors & Styling
+---
 
-Customize the dark theme in `app/globals.css`:
-- CSS variables for colors (line ~15)
-- Modify Tailwind config in `tailwind.config.ts`
+## Where to edit other content
 
-## 📁 Project Structure
+| What you want to change           | File                                              |
+| --------------------------------- | ------------------------------------------------- |
+| Site name, nav links, social URLs | `config/site.ts`                                  |
+| Hero headline, subheadline, CTAs  | `components/home-page-client.tsx`                 |
+| About section accordion           | `components/sections/about-section.tsx`           |
+| Services section                  | `components/sections/services-section.tsx`        |
+| Footer CTA + social icons         | `components/site-footer.tsx`                      |
+| Contact page                      | `components/sections/contact-section.tsx`         |
+| Projects (every page)             | `data/projects.json`                              |
+| Theme colors                      | `app/globals.css` (CSS variables)                 |
+
+See `CUSTOMIZATION.md` for a deeper walkthrough.
+
+---
+
+## Project structure
 
 ```
 dark-react-developer-bundle/
 ├── app/
-│   ├── globals.css          # Global styles and theme variables
-│   ├── layout.tsx           # Root layout with metadata
-│   └── page.tsx             # Main homepage component
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx                       # server entry → HomePageClient
+│   ├── contact/page.tsx
+│   └── projects/
+│       ├── page.tsx                   # /projects list
+│       └── [slug]/page.tsx            # /projects/<slug> detail
 ├── components/
-│   ├── site-navbar.tsx      # Navigation bar component
-│   └── ui/                  # shadcn/ui components
-│       ├── button.tsx
-│       ├── badge.tsx
-│       ├── separator.tsx
-│       └── sheet.tsx
+│   ├── home-page-client.tsx           # homepage UI (motion-driven)
+│   ├── site-navbar.tsx
+│   ├── site-footer.tsx
+│   ├── hero-title-with-globe.tsx
+│   ├── dotted-globe.tsx               # three.js point-cloud globe
+│   ├── motion/                        # animated section-title primitives
+│   ├── projects/                      # filter + lightbox
+│   ├── sections/                      # about, services, featured-projects, projects-section, contact-section
+│   └── ui/                            # shadcn primitives (button, badge, accordion, …)
 ├── config/
-│   └── site.ts              # Site configuration
+│   └── site.ts                        # branding, nav, social links
+├── data/
+│   ├── projects.json                  # YOUR PORTFOLIO CONTENT
+│   └── globe.json                     # globe geometry (do not edit)
 ├── lib/
-│   └── utils.ts             # Utility functions
-└── public/                  # Static assets
+│   ├── projects-data.ts               # JSON loader + types + mappers
+│   └── utils.ts
+└── public/
 ```
-
-## 🎨 Tech Stack
-
-- **[Next.js 14](https://nextjs.org/)** - React framework with App Router
-- **[TypeScript](https://www.typescriptlang.org/)** - Type safety
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS
-- **[shadcn/ui](https://ui.shadcn.com/)** - UI component library
-- **[lucide-react](https://lucide.dev/)** - Icon library
-
-## 📦 Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-
-## 🚢 Deployment
-
-### Deploy to Vercel (Recommended)
-
-The easiest way to deploy is using [Vercel](https://vercel.com):
-
-1. Push your code to GitHub
-2. Import your repository in Vercel
-3. Vercel will automatically detect Next.js and deploy
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
-
-### Other Platforms
-
-This project can also be deployed to:
-- Netlify
-- Railway
-- AWS Amplify
-- Any platform supporting Node.js
-
-## 📚 shadcn/ui Components Used
-
-This template includes the following shadcn/ui components:
-
-- Button
-- Badge
-- Separator
-- Sheet
-
-To add more components, use:
-
-```bash
-npx shadcn-ui@latest add [component-name]
-```
-
-## 🔧 Adding More Features
-
-### Adding a New Section
-
-1. Create a new section in `app/page.tsx`
-2. Add an ID for anchor linking
-3. Update navigation in `config/site.ts`
-
-### Adding a Contact Form
-
-Consider integrating:
-- [React Hook Form](https://react-hook-form.com/)
-- [EmailJS](https://www.emailjs.com/)
-- [Resend](https://resend.com/)
-
-### Adding Analytics
-
-Easy integrations:
-- [Vercel Analytics](https://vercel.com/analytics)
-- [Google Analytics](https://analytics.google.com/)
-- [Plausible](https://plausible.io/)
-
-## 🐛 Troubleshooting
-
-### Build Errors
-
-If you encounter build errors:
-
-```bash
-# Clear cache and reinstall
-rm -rf .next node_modules
-npm install
-npm run build
-```
-
-### TypeScript Errors
-
-Check your `tsconfig.json` settings and ensure all types are properly imported.
-
-### Styling Issues
-
-Make sure Tailwind CSS is properly configured and your `globals.css` is imported in `layout.tsx`.
-
-## 📄 License
-
-This is a digital product template. Once purchased, you can use it for personal or commercial projects.
-
-## 🤝 Support
-
-For questions or issues, please refer to the documentation PDF included with your purchase.
 
 ---
 
-**Built with ❤️ using Next.js and Tailwind CSS**
+## Tech stack
 
+- [Next.js 14](https://nextjs.org/) (App Router)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [lucide-react](https://lucide.dev/) icons
+- [Three.js](https://threejs.org/) + [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber) for the dotted globe
+- [cobe](https://cobe.vercel.app/) for the international card globe
+
+---
+
+## Scripts
+
+| Command         | What it does                          |
+| --------------- | ------------------------------------- |
+| `npm run dev`   | Start the dev server on `:3000`       |
+| `npm run build` | Production build                      |
+| `npm run start` | Run the production build              |
+| `npm run lint`  | Lint the project with `next lint`     |
+
+---
+
+## Deployment
+
+The template is a standard Next.js app — deploy it anywhere Next.js runs.
+
+- **Vercel** (recommended): import the repo, accept defaults, deploy. No env vars to configure.
+- **Netlify / Railway / DigitalOcean App Platform / your own VPS**: also work out of the box. See `DEPLOYMENT.md`.
+
+Because content is stored in `data/projects.json` (a tracked file), every push deploys the latest portfolio. There is no database to back up.
+
+---
+
+## License
+
+This is a digital product template. Once purchased, you may use it for personal or commercial projects. See `LICENSE.md`.
+
+---
+
+## Support
+
+For setup or customization questions:
+
+- `INSTALLATION.md` — getting up and running
+- `CUSTOMIZATION.md` — deep dive into every section
+- `QUICK-START.md` — 15-minute checklist
+- `DEPLOYMENT.md` — host-by-host deploy steps
+- `CHANGELOG.md` — release notes

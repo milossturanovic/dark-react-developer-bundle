@@ -2,13 +2,16 @@ import type { Metadata } from "next"
 import { SiteNavbar } from "@/components/site-navbar"
 import { ProjectsSection } from "@/components/sections/projects-section"
 import { SiteFooter } from "@/components/site-footer"
+import { getListProjects } from "@/lib/projects-data"
 
 export const metadata: Metadata = {
   title: "Projects | John Doe",
   description: "A curated overview of client and personal web development projects.",
 }
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await getListProjects()
+
   return (
     <div className="relative min-h-screen">
       {/* Grid pattern background — matches homepage */}
@@ -18,7 +21,7 @@ export default function ProjectsPage() {
 
       <SiteNavbar />
       <main className="min-h-screen">
-        <ProjectsSection />
+        <ProjectsSection projects={projects} />
       </main>
       <SiteFooter />
     </div>

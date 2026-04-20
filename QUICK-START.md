@@ -1,190 +1,129 @@
 # Quick Start Checklist
 
-Get your portfolio up and running in 15 minutes! Follow this checklist step by step.
+Get your portfolio up and running in about 15 minutes.
 
 ## ✅ Setup (5 minutes)
 
 - [ ] **Extract the bundle** to your desired location
-- [ ] **Open terminal** in the project folder
+- [ ] **Open a terminal** in the project folder
 - [ ] **Install dependencies:**
   ```bash
   npm install
   ```
-- [ ] **Start development server:**
+- [ ] **Start the dev server:**
   ```bash
   npm run dev
   ```
-- [ ] **Open browser** to http://localhost:3000
-- [ ] **Verify** the template loads correctly
+- [ ] **Open** <http://localhost:3000> and confirm the template loads
+
+> No environment variables are required for the default template.
 
 ---
 
-## ✅ Essential Customization (10 minutes)
+## ✅ Essential customization (10 minutes)
 
-### 1. Update Site Branding (2 min)
+### 1. Site branding (2 min)
 
 **File:** `config/site.ts`
 
-- [ ] Change `name` to your name/brand
+- [ ] Change `name` to your name / brand
 - [ ] Update `description`
-- [ ] Set `shortName` abbreviation
+- [ ] Set `shortName`
+- [ ] Replace social URLs in `links`
 
-### 2. Update Social Links (2 min)
+### 2. Hero section (3 min)
 
-**File:** `config/site.ts` (bottom of file)
+**File:** `components/home-page-client.tsx`
 
-- [ ] Add your GitHub URL
-- [ ] Add your LinkedIn URL
-- [ ] Add your email
+- [ ] Edit the headline words (the two `[…].map((word, i) => …)` arrays)
+- [ ] Update the subheadline `<p>`
+- [ ] Tweak the `FEATURES_DATA` badge list at the top of the file
+- [ ] Replace the `Download Resume` and `Contact` button targets if needed
 
-**File:** `app/page.tsx` (search for "SOCIAL_LINKS")
+### 3. Projects (5 min)
 
-- [ ] Update GitHub link
-- [ ] Update LinkedIn link
-- [ ] Update email address
+**File:** `data/projects.json`
 
-### 3. Customize Hero Section (3 min)
+- [ ] Replace the example projects with your own
+- [ ] Mark up to 3 with `"featured": true` to show on the homepage
+- [ ] Set `"status": "draft"` to temporarily hide a project
 
-**File:** `app/page.tsx`
-
-- [ ] Edit main headline (~line 104)
-- [ ] Update subheadline text (~line 113)
-- [ ] Modify feature badges in `FEATURES_DATA` array (~line 48)
-
-### 4. Add Your Projects (3 min)
-
-**File:** `app/page.tsx`
-
-- [ ] Update `PROJECTS_DATA` array (~line 54)
-- [ ] Add 3-5 of your best projects
-- [ ] Include project titles, descriptions, tags, and links
+Required fields per project: `id`, `slug`, `title`, `description`, `category`, `tech`, `completed`. See `lib/projects-data.ts` for the full schema and optional fields (`client`, `duration`, `highlights`, `impact`, `screenshots`, etc.).
 
 ---
 
-## ✅ Optional Customization (Later)
+## ✅ Optional polish
+
+### Other sections
+
+- [ ] About accordion → `components/sections/about-section.tsx`
+- [ ] Services cards → `components/sections/services-section.tsx`
+- [ ] Footer CTA + social links → `components/site-footer.tsx`
+- [ ] Contact page form → `components/sections/contact-section.tsx`
 
 ### Styling
 
-- [ ] Customize colors in `app/globals.css`
-- [ ] Change font in `app/layout.tsx`
-- [ ] Adjust spacing and sizing
-
-### Content
-
-- [ ] Write about section content
-- [ ] Update navigation menu items
-- [ ] Add more sections if needed
-- [ ] Replace placeholder text
-
-### Advanced
-
-- [ ] Add contact form
-- [ ] Integrate analytics
-- [ ] Add blog section
-- [ ] Create case study pages
+- [ ] Tweak theme colors in `app/globals.css` (CSS variables on `.dark`)
+- [ ] Change the global font in `app/layout.tsx`
 
 ---
 
-## ✅ Pre-Launch (Before Deploy)
+## ✅ Pre-launch
 
-### Content Review
+### Content review
 
 - [ ] Spell-check all text
-- [ ] Verify all links work
-- [ ] Test all buttons and navigation
-- [ ] Check on mobile devices
+- [ ] Verify every external link works
+- [ ] Test the mobile menu and the lightbox on a phone
+- [ ] Confirm metadata in `app/layout.tsx`
 
 ### Technical
 
-- [ ] Test production build:
+- [ ] Run a clean production build:
   ```bash
   npm run build
   npm run start
   ```
 - [ ] Fix any errors or warnings
-- [ ] Optimize images (if added)
-- [ ] Update meta tags in `app/layout.tsx`
-
-### Final Checks
-
-- [ ] Test all interactive elements
-- [ ] Verify mobile menu works
-- [ ] Check keyboard navigation
-- [ ] Test on different browsers
-- [ ] Verify responsive design
+- [ ] Optimize any project images you added under `public/`
 
 ---
 
 ## ✅ Deployment
 
-Choose your platform (see `DEPLOYMENT.md` for detailed guides):
+The shortest path:
 
-**Easiest: Vercel**
-- [ ] Push code to GitHub
-- [ ] Connect repository to Vercel
-- [ ] Deploy (automatic)
-- [ ] Add custom domain (optional)
+- [ ] Commit your changes:
+  ```bash
+  git add .
+  git commit -m "Initial portfolio content"
+  ```
+- [ ] Push to GitHub
+- [ ] Import the repo into [Vercel](https://vercel.com)
+- [ ] Click Deploy — no environment variables required
 
-**Alternative Platforms:**
-- [ ] Netlify
-- [ ] Railway
-- [ ] DigitalOcean
-- [ ] AWS Amplify
+When you want to publish more projects later: edit `data/projects.json`, commit, push. Done.
 
----
-
-## 🎯 You're Done!
-
-Your portfolio should now be:
-- ✅ Running locally
-- ✅ Customized with your content
-- ✅ Ready to deploy
+See `DEPLOYMENT.md` for Netlify, Railway, AWS Amplify, DigitalOcean and VPS instructions.
 
 ---
 
-## 📚 Need Help?
+## 💡 Pro tips
 
-Refer to these guides:
-
-- **General info:** `README.md`
-- **Detailed customization:** `CUSTOMIZATION.md`
-- **Installation issues:** `INSTALLATION.md`
-- **Deployment help:** `DEPLOYMENT.md`
+1. **Use Git from day one.** Editing `data/projects.json` and pushing is the entire publishing workflow.
+2. **Preview after each change.** `npm run dev` reloads automatically.
+3. **Test on mobile early.** Browser dev tools or your actual phone.
+4. **Don't over-customize on day one.** Ship a basic version, iterate later.
 
 ---
 
-## 💡 Pro Tips
+## 📚 Need help?
 
-1. **Use Git:** Track your changes with version control
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial setup"
-   ```
-
-2. **Test Frequently:** Check `localhost:3000` after each change
-
-3. **Mobile First:** Test on mobile devices early and often
-
-4. **Keep it Simple:** Don't over-customize on day one
-
-5. **Iterate:** Deploy a basic version first, then improve over time
+- `README.md` — overview
+- `INSTALLATION.md` — detailed setup
+- `CUSTOMIZATION.md` — section-by-section guide
+- `DEPLOYMENT.md` — host-specific deploy steps
 
 ---
 
-## 🚀 Next Steps
-
-Once your basic portfolio is live:
-
-1. **Add more projects** as you build them
-2. **Create blog posts** (if desired)
-3. **Add case studies** for major projects
-4. **Integrate contact form** for inquiries
-5. **Add analytics** to track visitors
-6. **Optimize SEO** for better search ranking
-7. **Share** on social media and with your network
-
----
-
-**Ready to launch? Let's go! 🎉**
-
+**Ready to launch.**
