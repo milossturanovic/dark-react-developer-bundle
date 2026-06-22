@@ -34,5 +34,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# sale bundle output (from `npm run bundle`)
+# sale bundle output (from `node scripts/create-bundle.mjs`)
 /dist-bundle/

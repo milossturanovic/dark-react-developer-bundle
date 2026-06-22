@@ -12,7 +12,9 @@ Vercel is built by the creators of Next.js and offers the best integration.
 
 **Option 1: Deploy from GitHub (Recommended)**
 
-1. **Push your code to GitHub:**
+> **License note:** You may use a **private** GitHub repository to deploy your customized portfolio. That is the intended workflow. Do **not** publish the template source as a public repo or share it as a starter kit. See `LICENSE.md` → *Git Hosting and Deployment*.
+
+1. **Push your code to GitHub** (create a **private** repository when prompted):
    ```bash
    git init
    git add .
@@ -237,9 +239,8 @@ sudo certbot --nginx -d yourdomain.com
 Before deploying, make sure you've:
 
 - [ ] Edited `data/projects.json` with your real projects (and removed the example ones)
-- [ ] Updated `config/site.ts` (name, description, nav, social URLs)
+- [ ] Updated `config/site.ts` (name, role, description, contact, nav, social URLs)
 - [ ] Customized hero copy in `components/home-page-client.tsx`
-- [ ] Updated metadata in `app/layout.tsx`
 - [ ] Replaced placeholder links with real URLs throughout
 - [ ] Added your project images under `public/` (if any) and referenced them via `coverImage` / `screenshots` in `data/projects.json`
 - [ ] Tested locally with `npm run build && npm run start`

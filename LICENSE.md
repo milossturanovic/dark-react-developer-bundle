@@ -6,7 +6,7 @@
 
 **Licensor:** Portfolio Sets ([portfoliosets.com](https://portfoliosets.com))
 
-Version 1.0.1
+Version 1.0.2
 
 ---
 
@@ -21,16 +21,18 @@ This is a commercial digital product. By purchasing and using this template, you
 - **Modify** the code and design to fit your needs
 - **Create** unlimited projects using this template
 - **Deploy** your projects to any hosting platform
+- **Store** your customized portfolio in a **private** Git repository (GitHub, GitLab, Bitbucket, etc.) connected to Vercel, Netlify, or similar hosts
+- **Push** commits to trigger redeploys of **your** live portfolio site
 - **Remove** or change any branding
 - **Integrate** with your own backend services
 
 ### ❌ What You CANNOT Do
 
 - **Redistribute** or resell this template (as-is or modified)
-- **Share** the source code with others
-- **Create** derivative templates to sell
-- **Upload** to public code repositories (GitHub, GitLab, etc.) as a template
-- **Include** in any template marketplace or bundle
+- **Share** the template source code with others (friends, clients as a starter kit, teams, etc.)
+- **Create** derivative templates to sell or give away
+- **Publish** the template publicly as a free or paid starter, boilerplate, or theme (on GitHub, GitLab, npm, Gumroad, etc.)
+- **Include** the template in any template marketplace or bundle
 - **Claim** ownership of the original template design
 - **Sub-license** or transfer the license to others
 
@@ -51,6 +53,26 @@ This license grants you, the purchaser, an ongoing, non-exclusive, worldwide lic
 - Major version updates may require additional purchase
 - Support is provided through included documentation only
 - No guaranteed response time for questions
+
+---
+
+## Git Hosting and Deployment
+
+This template is designed for a **Git-based workflow**: edit locally, commit, push, and let your host redeploy.
+
+### Allowed
+
+- Keeping your **customized portfolio** in a **private** repository for version control and deployment
+- Connecting that repository to Vercel, Netlify, Railway, or another host so pushes update your live site
+- Making your **deployed website** public (that is your portfolio — not the template product)
+
+### Not allowed
+
+- Uploading the **template source** to a **public** repository where others can clone or download it as a starter
+- Sharing the purchased download, zip file, or repo access with anyone who has not bought their own license
+- Listing the template itself for download on GitHub, GitLab, or similar platforms
+
+**Rule of thumb:** Your **live portfolio URL** can be public. The **template source code** you purchased should stay private to you unless you have written permission from Portfolio Sets.
 
 ---
 
@@ -125,9 +147,9 @@ Portfolio Sets reserves the right to update these terms. Any changes will be com
 
 ---
 
-**Last Updated:** April 20, 2026
+**Last Updated:** June 18, 2026
 
-**Version:** 1.0.1
+**Version:** 1.0.2
 
 ---
 
@@ -138,8 +160,9 @@ Portfolio Sets reserves the right to update these terms. Any changes will be com
 ✅ Buy once, use forever  
 ✅ Create unlimited projects  
 ✅ Use for client work  
-❌ Don't resell or redistribute  
-❌ Don't share the source code  
+✅ Deploy from a **private** Git repo (Vercel, Netlify, etc.)  
+❌ Don't resell or redistribute the template  
+❌ Don't publish the template source publicly or share it with others  
 
 ---
 

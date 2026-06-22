@@ -14,8 +14,14 @@ export type SiteConfig = typeof siteConfig
 export const siteConfig = {
   name: "John Doe",
   shortName: "John", // Used in mobile view or as logo abbreviation
-  description: "A modern dark-themed developer portfolio template",
-  url: "https://yoursite.com",
+  role: "Full Stack Developer",
+  description:
+    "Full stack developer portfolio showcasing web projects, client work, and modern front-end builds.",
+  url: "https://johndoe.dev",
+  contact: {
+    location: "United States",
+    email: "john.doe@example.com",
+  },
   
   // ============================================================================
   // NAVIGATION LINKS

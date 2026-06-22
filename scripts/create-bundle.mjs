@@ -8,8 +8,8 @@
  * only the files a buyer should receive. Everything listed in EXCLUDED is
  * skipped: node_modules, build caches, git history, editor cruft, etc.
  *
- * USAGE:
- *   npm run bundle
+ * USAGE (seller only — not shipped to buyers):
+ *   node scripts/create-bundle.mjs
  *
  * OUTPUT:
  *   dist-bundle/dark-react-developer-bundle/
@@ -31,6 +31,11 @@ const ROOT = resolve(__dirname, "..")
 const BUNDLE_NAME = "dark-react-developer-bundle"
 const OUT_DIR = join(ROOT, "dist-bundle")
 const DEST = join(OUT_DIR, BUNDLE_NAME)
+
+/** Top-level files that must NEVER be shipped to buyers. */
+const EXCLUDED_FILES = new Set([
+  "CHANGELOG.md",
+])
 
 /**
  * Top-level paths (relative to project root) that must NEVER be shipped.
@@ -59,10 +64,13 @@ const EXCLUDED_TOP_LEVEL = new Set([
 const EXCLUDED_SUFFIXES = [
   ".tsbuildinfo",
   ".log",
+  ".tmp",
+  ".tmp.md",
 ]
 
 /** Returns true when the given relative path should be skipped. */
 function shouldExclude(relPath) {
+  if (EXCLUDED_FILES.has(relPath)) return true
   const first = relPath.split(sep)[0]
   if (EXCLUDED_TOP_LEVEL.has(first)) return true
   if (EXCLUDED_SUFFIXES.some((s) => relPath.endsWith(s))) return true

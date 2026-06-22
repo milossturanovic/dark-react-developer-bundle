@@ -109,7 +109,6 @@ export function CobeGlobe({ className, width, height }: CobeGlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const globeRef = useRef<ReturnType<typeof createGlobe> | null>(null)
   const phiRef = useRef(0)
-  const animationFrameRef = useRef<number | null>(null)
 
   // Check for reduced motion preference
   const prefersReducedMotion =
@@ -149,12 +148,8 @@ export function CobeGlobe({ className, width, height }: CobeGlobeProps) {
 
     // Cleanup
     return () => {
-      if (globeRef.current) {
-        globeRef.current.destroy()
-      }
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current)
-      }
+      globe.destroy()
+      globeRef.current = null
     }
   }, [width, height, prefersReducedMotion])
 

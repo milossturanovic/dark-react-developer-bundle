@@ -27,14 +27,17 @@ This is the central configuration file for your portfolio.
 
 ```typescript
 export const siteConfig = {
-  name: "Your Name",
-  shortName: "YN",
+  name: "John Doe",
+  shortName: "John",
+  role: "Full Stack Developer",
   description: "Your custom description",
-  url: "https://yoursite.com",
+  url: "https://johndoe.dev",
+  contact: {
+    location: "United States",
+    email: "john.doe@example.com",
+  },
   navItems: [
     { title: "Home", href: "/" },
-    { title: "About", href: "/#about" },
-    { title: "Services", href: "/#services" },
     { title: "Projects", href: "/projects" },
     { title: "Contact", href: "/contact" },
   ],
@@ -42,12 +45,12 @@ export const siteConfig = {
     github: "https://github.com/yourusername",
     linkedin: "https://linkedin.com/in/yourusername",
     twitter: "https://twitter.com/yourusername",
-    email: "mailto:hi@yoursite.com",
+    email: "mailto:john.doe@example.com",
   },
 }
 ```
 
-The same `siteConfig` is consumed by `components/site-navbar.tsx`, `components/ui/sidemenu.tsx`, and `components/site-footer.tsx`.
+The same `siteConfig` is consumed by `components/site-navbar.tsx`, `components/ui/sidemenu.tsx`, `components/site-footer.tsx`, `components/sections/about-section.tsx` (name + role), `components/sections/contact-section.tsx` (location + email + social), and `app/layout.tsx` (page title + meta description).
 
 ---
 
@@ -180,7 +183,9 @@ The full TypeScript shape (with JSDoc) lives in `lib/projects-data.ts` (`JsonPro
 
 **File:** `components/sections/about-section.tsx`
 
-Includes an introduction block plus an 8-item shadcn/ui Accordion of skill categories, plus a bento grid of metric cards. Edit the strings, icons, and accordion items in place — the markup is well-commented.
+Your **name** and **role** in the section header come from `config/site.ts` (`siteConfig.name` and `siteConfig.role`).
+
+Edit the **intro paragraphs** and **accordion items** in this file — the markup is well-commented.
 
 ---
 
@@ -197,7 +202,9 @@ Three minimalist cards. Edit the title, description, and bullets per card direct
 **Page:** `app/contact/page.tsx`
 **Section:** `components/sections/contact-section.tsx`
 
-Left column: contact info + social links. Right column: inquiry form.
+Left column: location, email, availability list, and social links (location, email, and social URLs read from `config/site.ts`). Right column: inquiry form.
+
+Edit **availability items** and the **contact note** at the top of `contact-section.tsx`.
 
 The form is **UI-only** by default — submitting it shows a success state but does not send anything. To wire it up, replace the `handleSubmit` body with a `fetch` call to your provider of choice (Resend, Formspree, your own API route).
 
@@ -209,10 +216,10 @@ When you do, add server-side validation (length, email format) and basic anti-sp
 
 **File:** `components/site-footer.tsx`
 
-A global "Get in Touch" CTA block plus animated social icons. Used on every page (homepage, `/projects`, `/projects/<slug>`, `/contact`).
+A global "Get in Touch" CTA block plus animated social icons. Used on every page.
 
 - Edit the headline / subhead text directly in the file.
-- The social icon list (`SOCIAL_LINKS`) lives at the top of the file.
+- Social icon URLs come from `config/site.ts` (`siteConfig.links`) — do not duplicate them here.
 - Hover animation: top-to-bottom slide that plays once per hover (already configured).
 
 ---
@@ -333,6 +340,6 @@ This drops the source into `components/ui/`, where you can edit it directly.
 Need more help?
 
 - `README.md` — high-level overview
-- `INSTALLATION.md` — first-time setup
 - `QUICK-START.md` — 15-minute checklist
 - `DEPLOYMENT.md` — host-specific instructions
+- `AI_CUSTOMIZATION_PROMPT.md` — AI-assisted customization

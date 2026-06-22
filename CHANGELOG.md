@@ -2,6 +2,52 @@
 
 All notable changes to the Dark React Developer Bundle will be documented in this file.
 
+## [1.1.4] - 2026-06-18
+
+### Code hygiene
+
+- Fixed ESLint warning in `components/about/cobe-globe.tsx` (effect cleanup uses local `globe` instance; removed unused `animationFrameRef`).
+- Ran `npm audit fix` (dev dependency patches). Remaining advisories require a major Next.js upgrade and are tracked for a future release.
+
+---
+
+## [1.1.3] - 2026-06-18
+
+### License
+
+- Clarified Git hosting: **private repos for deployment are allowed**; public redistribution of the template source is not.
+- Added *Git Hosting and Deployment* section to `LICENSE.md`; aligned `DEPLOYMENT.md`, `QUICK-START.md`, and `README.md`.
+
+---
+
+## [1.1.2] - 2026-06-18
+
+### Documentation
+
+- Consolidated buyer docs to five files: `README.md`, `QUICK-START.md`, `CUSTOMIZATION.md`, `DEPLOYMENT.md`, `LICENSE.md`, plus new `AI_CUSTOMIZATION_PROMPT.md`.
+- Removed redundant `TECHNICAL-GUIDE.md` and `INSTALLATION.md` (content covered by the split guides).
+- Updated all cross-references; `CHANGELOG.md` excluded from buyer zip via `create-bundle.mjs`.
+
+### Content / DX
+
+- Unified demo persona to **John Doe** in `config/site.ts`; navbar, footer, about, contact, and layout metadata read from one config file.
+
+---
+
+## [1.1.1] - 2026-05-10
+
+### Documentation
+
+- **`TECHNICAL-GUIDE.md`** — single buyer-facing handbook: lifecycle from install through customization (`data/projects.json`, sections, theme) to deployment (Vercel, Netlify, Railway, Amplify, DigitalOcean, VPS), checklist, analytics/SEO notes, env vars, troubleshooting, and file appendix. Maintained directly as Markdown (no doc build script).
+- Removed **`scripts/build-technical-guide-once.mjs`**; the guide is not assembled by Node tooling.
+- **`README.md`** — link **`TECHNICAL-GUIDE.md`** under Support.
+
+### Seller workflow
+
+- Remove **`bundle`** npm script from **`package.json`**; sellers run **`node scripts/create-bundle.mjs`** when assembling buyer zips (buyers do not ship the `scripts/` folder).
+
+---
+
 ## [1.1.0] - 2026-04-19
 
 ### Major changes

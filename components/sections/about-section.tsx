@@ -11,8 +11,7 @@
  * WHERE TO UPDATE CONTENT:
  * 
  * 1. Developer Name & Role:
- *    - Edit `displayName` constant (line ~50) - Your name
- *    - Edit `roleTitle` constant (line ~51) - Your role/title
+ *    - Edit name and role in config/site.ts
  * 
  * 2. Intro Text:
  *    - Edit `introParagraphs` array (line ~53) - Update the paragraph text
@@ -131,14 +130,11 @@ import {
 import { InternationalGlobeCard } from "@/components/about/international-globe-card"
 import { ExperienceMetric } from "@/components/about/experience-metric"
 import { ProjectsMetric } from "@/components/about/projects-metric"
+import { siteConfig } from "@/config/site"
 
 // ============================================================================
 // EDITABLE CONTENT - CUSTOMIZE YOUR INFORMATION HERE
 // ============================================================================
-
-// Developer information
-const displayName = "John Doe"
-const roleTitle = "Full Stack Developer"
 
 // Intro paragraphs - Add/remove as needed
 const introParagraphs = [
@@ -335,9 +331,9 @@ export function AboutSection() {
           {/* Left Column: Intro Text */}
           <div className="lg:col-span-1">
             <AnimatedSectionTitle className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              About {displayName}
+              About {siteConfig.name}
             </AnimatedSectionTitle>
-            <p className="mt-2 text-lg text-muted-foreground">{roleTitle}</p>
+            <p className="mt-2 text-lg text-muted-foreground">{siteConfig.role}</p>
 
             {/* Intro Paragraphs */}
             <div className="mt-6 space-y-4">

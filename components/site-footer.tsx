@@ -8,7 +8,7 @@
  * - Bottom bar with brand name, copyright, and nav links
  *
  * TO CUSTOMIZE:
- * - Edit SOCIAL_LINKS below (keep in sync with app/page.tsx)
+ * - Edit social links in config/site.ts
  * - Edit copyright text / year (auto-updates)
  * - Add footer columns by extending the bottom bar layout
  */
@@ -20,14 +20,10 @@ import { siteConfig } from "@/config/site"
 import { Button } from "@/components/ui/button"
 import { AnimatedSectionTitle } from "@/components/motion/animated-section-title"
 
-// ============================================================================
-// SOCIAL LINKS — update with real URLs
-// ============================================================================
-
 const SOCIAL_LINKS = [
-  { name: "GitHub",   href: "https://github.com/yourusername",     icon: Github },
-  { name: "LinkedIn", href: "https://linkedin.com/in/yourusername", icon: Linkedin },
-  { name: "Email",    href: "mailto:your.email@example.com",        icon: Mail },
+  { name: "GitHub", href: siteConfig.links.github, icon: Github },
+  { name: "LinkedIn", href: siteConfig.links.linkedin, icon: Linkedin },
+  { name: "Email", href: siteConfig.links.email, icon: Mail },
 ]
 
 // ============================================================================

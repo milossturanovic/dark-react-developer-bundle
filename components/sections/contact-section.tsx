@@ -10,9 +10,8 @@
  * DEVELOPER EDIT NOTES:
  *
  * 1. CONTACT DETAILS:
- *    - Edit the CONTACT_INFO constant below to update location, email, etc.
- *    - Edit AVAILABILITY_ITEMS to change what you're open to.
- *    - Edit SOCIAL_LINKS to add/remove social profiles.
+ *    - Edit name, email, location, and social links in config/site.ts
+ *    - Edit AVAILABILITY_ITEMS below to change what you're open to.
  *
  * 2. FORM FIELDS:
  *    - The form renders 3 fields: Full name, Email, Message.
@@ -41,17 +40,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { AnimatedSectionTitle } from "@/components/motion/animated-section-title"
+import { siteConfig } from "@/config/site"
 
 // ============================================================================
-// EDITABLE CONTENT — update these to match your details
+// EDITABLE CONTENT — update availability and note below; name/email/links in config/site.ts
 // ============================================================================
-
-/** Primary contact information displayed in the left column. */
-const CONTACT_INFO = {
-  location: "United States",          // Where you're based
-  email: "hello@example.com",        // Public-facing email
-  note: "Best for web development, UI implementation, WordPress builds, and optimization work.",
-}
 
 /** What you're currently open to — renders as a checked list. */
 const AVAILABILITY_ITEMS = [
@@ -60,10 +53,12 @@ const AVAILABILITY_ITEMS = [
   "Open to employment",
 ]
 
-/** Social links displayed at the bottom of the info column. */
+const CONTACT_NOTE =
+  "Best for web development, UI implementation, WordPress builds, and optimization work."
+
 const SOCIAL_LINKS = [
-  { label: "GitHub",   href: "https://github.com/yourusername",     icon: Github },
-  { label: "LinkedIn", href: "https://linkedin.com/in/yourusername", icon: Linkedin },
+  { label: "GitHub", href: siteConfig.links.github, icon: Github },
+  { label: "LinkedIn", href: siteConfig.links.linkedin, icon: Linkedin },
 ]
 
 // ============================================================================
@@ -130,17 +125,17 @@ export function ContactSection() {
             <InfoGroup label="Based in">
               <span className="flex items-center gap-2">
                 <MapPin className="h-3.5 w-3.5 text-muted-foreground/60" />
-                {CONTACT_INFO.location}
+                {siteConfig.contact.location}
               </span>
             </InfoGroup>
 
             {/* Email */}
             <InfoGroup label="Email">
               <a
-                href={`mailto:${CONTACT_INFO.email}`}
+                href={`mailto:${siteConfig.contact.email}`}
                 className="text-foreground/80 transition-colors hover:text-foreground"
               >
-                {CONTACT_INFO.email}
+                {siteConfig.contact.email}
               </a>
             </InfoGroup>
 
@@ -180,7 +175,7 @@ export function ContactSection() {
 
             {/* Extra note */}
             <p className="max-w-xs text-xs leading-relaxed text-muted-foreground/60">
-              {CONTACT_INFO.note}
+              {CONTACT_NOTE}
             </p>
           </div>
 

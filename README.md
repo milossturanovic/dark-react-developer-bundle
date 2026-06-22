@@ -71,12 +71,12 @@ Mark a project with `"featured": true` to make it eligible for the homepage stri
 
 | What you want to change           | File                                              |
 | --------------------------------- | ------------------------------------------------- |
-| Site name, nav links, social URLs | `config/site.ts`                                  |
+| Site name, role, email, social    | `config/site.ts`                                  |
+| Page title & meta description     | `config/site.ts` (used by `app/layout.tsx`)       |
 | Hero headline, subheadline, CTAs  | `components/home-page-client.tsx`                 |
-| About section accordion           | `components/sections/about-section.tsx`           |
+| About intro & accordion           | `components/sections/about-section.tsx`           |
 | Services section                  | `components/sections/services-section.tsx`        |
-| Footer CTA + social icons         | `components/site-footer.tsx`                      |
-| Contact page                      | `components/sections/contact-section.tsx`         |
+| Contact availability & form note  | `components/sections/contact-section.tsx`         |
 | Projects (every page)             | `data/projects.json`                              |
 | Theme colors                      | `app/globals.css` (CSS variables)                 |
 
@@ -149,7 +149,7 @@ The template is a standard Next.js app — deploy it anywhere Next.js runs.
 - **Vercel** (recommended): import the repo, accept defaults, deploy. No env vars to configure.
 - **Netlify / Railway / DigitalOcean App Platform / your own VPS**: also work out of the box. See `DEPLOYMENT.md`.
 
-Because content is stored in `data/projects.json` (a tracked file), every push deploys the latest portfolio. There is no database to back up.
+Because content is stored in `data/projects.json` (a tracked file), every push deploys the latest portfolio. Use a **private** Git repository for deployment; see `LICENSE.md` for what you may and may not publish.
 
 ---
 
@@ -159,12 +159,14 @@ This is a digital product template. Once purchased, you may use it for personal 
 
 ---
 
-## Support
+## Documentation
 
-For setup or customization questions:
+| File | Purpose |
+| ---- | ------- |
+| `QUICK-START.md` | 15-minute setup and launch checklist |
+| `CUSTOMIZATION.md` | Section-by-section editing guide |
+| `DEPLOYMENT.md` | Vercel and other hosting platforms |
+| `AI_CUSTOMIZATION_PROMPT.md` | Copy-paste prompt for ChatGPT / Cursor |
+| `LICENSE.md` | Terms of use for this template |
 
-- `INSTALLATION.md` — getting up and running
-- `CUSTOMIZATION.md` — deep dive into every section
-- `QUICK-START.md` — 15-minute checklist
-- `DEPLOYMENT.md` — host-by-host deploy steps
-- `CHANGELOG.md` — release notes
+Start with `QUICK-START.md`, then use the others as needed.
