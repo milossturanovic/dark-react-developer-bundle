@@ -2,6 +2,15 @@
 
 All notable changes to the Dark React Developer Bundle will be documented in this file.
 
+## [1.2.0] - 2026-10-22
+
+### License
+
+- Switched from commercial digital-product terms to **MIT** for free public GitHub distribution.
+- Updated `README.md`, `QUICK-START.md`, and `DEPLOYMENT.md` to allow public or private repos.
+
+---
+
 ## [1.1.4] - 2026-06-18
 
 ### Code hygiene

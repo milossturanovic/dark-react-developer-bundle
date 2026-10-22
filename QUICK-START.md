@@ -110,7 +110,7 @@ The shortest path:
   git add .
   git commit -m "Initial portfolio content"
   ```
-- [ ] Push to GitHub (**private** repo recommended — see `LICENSE.md`)
+- [ ] Push to GitHub (public or private — see `LICENSE.md`)
 - [ ] Import the repo into [Vercel](https://vercel.com)
 - [ ] Click Deploy — no environment variables required
 
@@ -136,6 +136,7 @@ See `DEPLOYMENT.md` for Netlify, Railway, AWS Amplify, DigitalOcean, and VPS ins
 - `CUSTOMIZATION.md` — section-by-section guide
 - `DEPLOYMENT.md` — host-specific deploy steps
 - `AI_CUSTOMIZATION_PROMPT.md` — AI customization prompt
+- `LICENSE.md` — MIT (free to use and share)
 
 ---
 

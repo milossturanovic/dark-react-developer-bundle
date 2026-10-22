@@ -12,9 +12,9 @@ Vercel is built by the creators of Next.js and offers the best integration.
 
 **Option 1: Deploy from GitHub (Recommended)**
 
-> **License note:** You may use a **private** GitHub repository to deploy your customized portfolio. That is the intended workflow. Do **not** publish the template source as a public repo or share it as a starter kit. See `LICENSE.md` → *Git Hosting and Deployment*.
+> **License note:** This template is **MIT-licensed** and free to host in a public or private repo. See `LICENSE.md`.
 
-1. **Push your code to GitHub** (create a **private** repository when prompted):
+1. **Push your code to GitHub** (public or private):
    ```bash
    git init
    git add .

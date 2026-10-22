@@ -5,7 +5,7 @@ Copy the prompt below into ChatGPT, Claude, or Cursor after you unzip the templa
 ---
 
 ```text
-I purchased the Dark React Developer Bundle (Next.js 14 portfolio template). Help me customize it for my job search. Do not add a database, admin panel, or backend unless I ask.
+I'm using the Dark React Developer Bundle (free MIT Next.js 14 portfolio template). Help me customize it for my job search. Do not add a database, admin panel, or backend unless I ask.
 
 My details:
 - Name: [Your Name]
